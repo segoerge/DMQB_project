@@ -15,6 +15,7 @@ Im Eclipse rechts oben neben der Java Perspektive "Open Perspective". Da kann ma
 Programm Struktur
 Package: Parser - Generiert internen Datentyp
 
+	Classes:
      - .tsv - dateien. (Kann Vaadin)
 	- .mzml
 	- .fastq
@@ -31,14 +32,16 @@ Package: Visuell-Oberfläche - Zeigt Internal Datentypen an
 	- Anotieren . Notizen
 
 Package: Export - Gibt Internal File Format aus als text file
-
+	
+	Classes:
 	- Projekt-Ebene , Experiment-Ebene, Sample-Ebene (sind tsv Files- mit bilder? Zusammenfassung=
 	- FastaExport
 	- mzmL Export
 	- FastQ Export
 
 Package: FileTypen - Internal File Format
-
+	
+	Classes:
 	- FastaSequence
 	- MzMLSequence
 	- FastQSequence
