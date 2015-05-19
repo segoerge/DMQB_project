@@ -10,6 +10,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.regex.Pattern;
 
+import FileType.FastaSequence;
+
 /*
  * Parser - reads in .fasta files and writes .fasta files.
  */
@@ -64,19 +66,5 @@ public class FastaParser {
 
 	public LinkedList<FastaSequence> getFastaSequences(){
 		return FastaSequences;
-	}
-	
-	public void createFastaFile(String file){
-		try {
-			FastaSequence e;
-			PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(file, false)));
-			for(int i=0; i<FastaSequences.size() && (e=FastaSequences.get(i))!=null; i++){
-				out.println(e.getFastaSequenceName());
-				out.println(e.getFastaSequence());
-			}
-			out.flush();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 	}
 }

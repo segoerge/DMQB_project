@@ -1,4 +1,4 @@
-package Parser;
+package FileType;
 
 public class FastaSequence {
 	private int sequenceNumber;
