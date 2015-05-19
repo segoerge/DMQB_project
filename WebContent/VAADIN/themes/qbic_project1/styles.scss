@@ -1,0 +1,9 @@
+@import "addons.scss";
+@import "qbic_project1.scss";
+
+/* This file prefixes all rules with the theme name to avoid causing conflicts with other themes. */
+/* The actual styles should be defined in qbic_project1.scss */
+.qbic_project1 {
+  @include addons;
+  @include qbic_project1;
+}
