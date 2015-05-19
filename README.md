@@ -18,7 +18,7 @@ Package:
 	- Class
 
 Parser:                             Generiert internen Datentyp
-     -    .tsv - dateien. (Kann Vaadin)
+     	- .tsv - dateien. (Kann Vaadin)
 	- .mzml
 	- .fastq
 
