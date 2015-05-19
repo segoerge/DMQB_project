@@ -18,11 +18,14 @@ Package:
 	- Class
 
 Parser:                             Generiert internen Datentyp
+
      	- .tsv - dateien. (Kann Vaadin)
 	- .mzml
 	- .fastq
 
+
 Visuell-Oberfläche:         Zeigt Internal Datentypen an 
+
 	- Projekte
 		○ Experimente
 			§ Samples
@@ -32,12 +35,14 @@ Visuell-Oberfläche:         Zeigt Internal Datentypen an
 	- Anotieren . Notizen
 
 Export:                           Gibt Internal File Format aus als text file
+
 	- Projekt-Ebene , Experiment-Ebene, Sample-Ebene (sind tsv Files- mit bilder? Zusammenfassung=
 	- FastaExport
 	- mzmL Export
 	- FastQ Export
 
 FileTypen                      Internal File Format
+
 	- FastaSequence
 	- MzMLSequence
 	- FastQSequence
