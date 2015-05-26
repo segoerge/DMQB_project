@@ -1,6 +1,5 @@
 package FileType;
 
-<<<<<<< HEAD
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.ListIterator;
@@ -28,40 +27,14 @@ public class Project {
 		this.experiments= new LinkedList<Experiment>();
 	}
 
-=======
-import java.io.Serializable;
-
-@SuppressWarnings("serial")
-public class Project implements Serializable  {
-
-	// Field names as in "projects.tsv"
-	String identifier, name, description, members;
-
-	// Constructor to create one new project
-	public Project(String identifier, String name, String description,
-			String members) {
-		this.identifier = identifier;
-		this.name = name;
-		this.description = description;
-		this.members = members;
-	}
-	
-	
-	// Getters/Setters required by VAADINs data model
->>>>>>> origin/master
 	public String getIdentifier() {
 		return identifier;
 	}
 
-<<<<<<< HEAD
-=======
-
->>>>>>> origin/master
 	public void setIdentifier(String identifier) {
 		this.identifier = identifier;
 	}
 
-<<<<<<< HEAD
 	public String getDescription() {
 		return description;
 	}
@@ -70,8 +43,6 @@ public class Project implements Serializable  {
 		this.description = description;
 	}
 
-=======
->>>>>>> origin/master
 	public String getName() {
 		return name;
 	}
@@ -80,7 +51,6 @@ public class Project implements Serializable  {
 		this.name = name;
 	}
 
-<<<<<<< HEAD
 	public String getMembers() {
 		return members;
 	}
@@ -151,27 +121,4 @@ public class Project implements Serializable  {
 
 		return res;
 	}
-=======
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
-	public String getMembers() {
-		return members;
-	}
-
-	public void setMembers(String members) {
-		this.members = members;
-	}
-
-	
-	
-
-	
-	
->>>>>>> origin/master
 }
