@@ -4,8 +4,11 @@ package Parser;
 
 
 import java.util.LinkedList;
+import java.util.List;
 import java.util.ListIterator;
 import java.util.regex.Pattern;
+
+import com.vaadin.data.util.BeanContainer;
 
 import FileType.*;
 
@@ -101,8 +104,78 @@ public class ImportFileSystem {
 	}
 	
 	//Getter und Setter
+	// Content of Projects
+	// - Projects.tsv as String[][] w/o header row
+	// - Experiments.tsv as String[][] w/o header row
+	// - Datasets.tsv as String[][] w/o header row
+	// - samples QCOFF & QMOUSE (and any future samples) in samples_raw-List (linked-list)
 	public LinkedList<Project> getProjects(){
 		return projects;
 	}
+	public BeanContainer<String, Project> getProjectBeanContainer()
+	{
+		// Fetch raw TSV-data in String[][] format
+		String[][] projectRawData = projects_raw.getContent();
+		// Bean Container for projects
+		BeanContainer<String, Project> projects = new BeanContainer<String, Project>(
+				Project.class);
+		// Define which property (ID,name, Descr, Members) to use as internal ID
+		// -> identifier
+		projects.setBeanIdProperty("identifier");
+		// Add data objects (as project objects) to container
+		for (int i=0; i< projectRawData.length;i++)
+		{
+			Project tmp = new Project(projectRawData[i][0], projectRawData[i][1],
+					projectRawData[i][2], projectRawData[i][3]);
+			projects.addBean(tmp);
+		}
+		
+		return projects;
+		
+	}
+	public BeanContainer<String, Experiment> getExperimentBeanContainer()
+	{
+		// Fetch raw TSV-data in String[][] format
+		String[][] ExperimentRawData = experiments_raw.getContent();
+		// Bean Container for Experiments
+				BeanContainer<String, Experiment> experiments = new BeanContainer<String, Experiment>(
+						Experiment.class);
+		// Define which property (ID,name, Descr, Members) to use as internal ID
+		// -> experimentIdentifier (e.g. QMOUSE1)
+		experiments.setBeanIdProperty("experimentIdentifier");
+		// Add data objects (as experiment objects) to container
+				for (int i=0; i< ExperimentRawData.length;i++)
+				{
+					Experiment tmp = new Experiment(ExperimentRawData[i][0], ExperimentRawData[i][1],
+							ExperimentRawData[i][2]);
+					experiments.addBean(tmp);
+				}
+		return experiments;
+	}
+	public BeanContainer<String, Data> getDataSetBeanContainer()
+	{
+		// Fetch raw TSV-data in String[][] format
+		String[][] dataSetsRawData = dataSets_raw.getContent();
+		// Bean Container for DataSets
+				BeanContainer<String, Data> dataSets = new BeanContainer<String, Data>(
+						Data.class);
+		// Define which property (ID,name, Descr, Members) to use as internal ID
+		// -> identifier (e.g. DS1)
+				dataSets.setBeanIdProperty("identifier");
+		// Add data objects (as Data objects) to container
+				for (int i=0; i< dataSetsRawData.length;i++)
+				{
+					Data tmp = new Data(dataSetsRawData[i][0], dataSetsRawData[i][1],
+							dataSetsRawData[i][2], dataSetsRawData[i][3]);
+					dataSets.addBean(tmp);
+				}
+		return dataSets;
+	}
+	
+	// Export samples as LinkedList -> not possible to convert to BeanContainer at this point
+	public LinkedList<SampleList> getSamples() {
+		return samples_raw;
+	}
+	
 	
 }
