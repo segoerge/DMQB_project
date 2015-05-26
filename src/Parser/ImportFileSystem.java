@@ -12,18 +12,18 @@ import FileType.*;
 
 public class ImportFileSystem {
 	//Attributes
-	LinkedList<Project> projects;
-	ProjectList projects_raw;
-	ExperimentsList experiments_raw;
-	LinkedList<SampleList> samples_raw;
-	DataSets dataSets_raw;
+	private LinkedList<Project> projects;
+	private ProjectList projects_raw;
+	private ExperimentsList experiments_raw;
+	private LinkedList<SampleList> samples_raw;
+	private DataSets dataSets_raw;
 
 
 
 	//Contstructor
 	public ImportFileSystem(String path){
-		projects= new LinkedList();
-		samples_raw = new LinkedList();
+		projects= new LinkedList<Project>();
+		samples_raw = new LinkedList<SampleList>();
 		TSVParser projectsParse = new TSVParser(path+"/projects.tsv");
 		TSVParser experimentsParse = new TSVParser(path+"/experiments.tsv");
 		TSVParser dataSetsParse = new TSVParser(path+"/datasets.tsv");
@@ -99,4 +99,10 @@ public class ImportFileSystem {
 
 		return res;
 	}
+	
+	//Getter und Setter
+	public LinkedList<Project> getProjects(){
+		return projects;
+	}
+	
 }
