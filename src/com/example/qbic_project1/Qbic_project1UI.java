@@ -30,7 +30,7 @@ public class Qbic_project1UI extends UI {
 		Button button = new Button("Click Me");
 		button.addClickListener(new Button.ClickListener() {
 			public void buttonClick(ClickEvent event) {
-				layout.addComponent(new Label("Thank you for clicking"));
+				layout.addComponent(new Label("Thank you for clicking me :-)"));
 			}
 		});
 		layout.addComponent(button);
