@@ -112,6 +112,7 @@ public class ImportFileSystem {
 	public LinkedList<Project> getProjects(){
 		return projects;
 	}
+	// Projects.tsv
 	public BeanContainer<String, Project> getProjectBeanContainer()
 	{
 		// Fetch raw TSV-data in String[][] format
@@ -133,6 +134,7 @@ public class ImportFileSystem {
 		return projects;
 		
 	}
+	// Experiments.tsv
 	public BeanContainer<String, Experiment> getExperimentBeanContainer()
 	{
 		// Fetch raw TSV-data in String[][] format
@@ -152,6 +154,7 @@ public class ImportFileSystem {
 				}
 		return experiments;
 	}
+	// DataSets.tsv
 	public BeanContainer<String, Data> getDataSetBeanContainer()
 	{
 		// Fetch raw TSV-data in String[][] format
@@ -172,10 +175,134 @@ public class ImportFileSystem {
 		return dataSets;
 	}
 	
-	// Export samples as LinkedList -> not possible to convert to BeanContainer at this point
-	public LinkedList<SampleList> getSamples() {
-		return samples_raw;
+	// Method to retrieve String[][] raw sample data from String projectID
+	private String[][] getSampleRawData(String projectID)
+	{
+		for (int i=0; i< samples_raw.size();i++)
+		{
+			if (samples_raw.get(i).getContent()[0][0].startsWith(projectID))
+			{
+				return samples_raw.get(i).getContent();
+			}
+		}
+		return null;
 	}
 	
+	// QMOUS.tsv
+	public BeanContainer<String,QMOUS> getQMOUSBeanContainer()
+	{
+		// Fetch raw sample data in String[][] format
+		String[][] SampleRawData = getSampleRawData("QMOUS");
+		// Bean Container for DataSets
+		BeanContainer<String, QMOUS> QMOUSData = new BeanContainer<String, QMOUS>(
+				QMOUS.class);
+		// Define which property (ID,name, Descr, Members) to use as internal ID
+				// -> identifier (e.g. QMOUSENTITY-1)
+		QMOUSData.setBeanIdProperty("identifier");
+		// Add data objects (as QMOUS objects) to container
+				for (int i=0; i< SampleRawData.length;i++)
+				{
+					QMOUS tmp = new QMOUS(SampleRawData[i][0], SampleRawData[i][1],
+								SampleRawData[i][2], SampleRawData[i][3], SampleRawData[i][4],
+										SampleRawData[i][5],SampleRawData[i][6],SampleRawData[i][7],
+										SampleRawData[i][8],SampleRawData[i][9],SampleRawData[i][10],
+												SampleRawData[i][11]);
+					QMOUSData.addBean(tmp);
+					}
+		return QMOUSData;
+	}
+	
+	// QCOFF.tsv
+	public BeanContainer<String,QCOFF> getQCOFFBeanContainer()
+	{
+		// Fetch raw sample data in String[][] format
+		String[][] SampleRawData = getSampleRawData("QCOFF");
+		// Bean Container for DataSets
+		BeanContainer<String, QCOFF> QCOFFData = new BeanContainer<String, QCOFF>(
+				QCOFF.class);
+		// Define which property (ID,name, Descr, Members) to use as internal ID
+				// -> identifier (e.g. QCOFFENTITY-1)
+		QCOFFData.setBeanIdProperty("identifier");
+		// Add data objects (as QMOUS objects) to container
+				for (int i=0; i< SampleRawData.length;i++)
+				{
+					QCOFF tmp = new QCOFF(SampleRawData[i][0], SampleRawData[i][1],
+								SampleRawData[i][2], SampleRawData[i][3], SampleRawData[i][4],
+										SampleRawData[i][5],SampleRawData[i][6],SampleRawData[i][7],
+										SampleRawData[i][8],SampleRawData[i][9],SampleRawData[i][10],
+												SampleRawData[i][11]);
+					QCOFFData.addBean(tmp);
+					}
+		return QCOFFData;
+	}
+	
+	
+	// (Almost) generic Method to import sample TSV-files like QMOUS or QCOFF
+	public BeanContainer getSampleBeanContainer(String projectID)
+	{
+		// Fetch raw sample data in String[][] format
+			String[][] SampleRawData = getSampleRawData(projectID);
+			// Bean Container for DataSets
+			BeanContainer SampleBC = null; 
+			// Manually decide from projectID -> not very generic atm.
+			// ProjectID is QMOUS
+			if (projectID.equals("QMOUS"))
+			{
+				
+				SampleBC = new BeanContainer<String, QMOUS>(QMOUS.class);
+				// Define which property (ID,name, Descr, Members) to use as internal ID
+				// -> identifier (e.g. QCOFFENTITY-1)
+				SampleBC.setBeanIdProperty("identifier");
+		// Add data objects (as QMOUS objects) to container
+				for (int i=0; i< SampleRawData.length;i++)
+				{
+					QMOUS tmp = new QMOUS(SampleRawData[i][0], SampleRawData[i][1],
+								SampleRawData[i][2], SampleRawData[i][3], SampleRawData[i][4],
+										SampleRawData[i][5],SampleRawData[i][6],SampleRawData[i][7],
+										SampleRawData[i][8],SampleRawData[i][9],SampleRawData[i][10],
+												SampleRawData[i][11]);
+					SampleBC.addBean(tmp);
+					}
+			}
+			// ProjectID is QCOFF
+			if (projectID.equals("QCOFF"))
+			{
+				SampleBC = new BeanContainer<String, QCOFF>(QCOFF.class);
+				// Define which property (ID,name, Descr, Members) to use as internal ID
+				// -> identifier (e.g. QCOFFENTITY-1)
+				SampleBC.setBeanIdProperty("identifier");
+		// Add data objects (as QMOUS objects) to container
+				for (int i=0; i< SampleRawData.length;i++)
+				{
+					QCOFF tmp = new QCOFF(SampleRawData[i][0], SampleRawData[i][1],
+								SampleRawData[i][2], SampleRawData[i][3], SampleRawData[i][4],
+										SampleRawData[i][5],SampleRawData[i][6],SampleRawData[i][7],
+										SampleRawData[i][8],SampleRawData[i][9],SampleRawData[i][10],
+												SampleRawData[i][11]);
+					SampleBC.addBean(tmp);
+					}	
+			}
+			return SampleBC;
+			
+			
+	}
+	
+	
+	
+	// Main method to test Class Methods
+	public static void main (String[] args)
+	{
+		ImportFileSystem local = new ImportFileSystem("/home/Oliver/git/DMQB_project/src/datasource/");
+		BeanContainer<String, QMOUS> myMouse = local.getQMOUSBeanContainer();
+		BeanContainer<String, QCOFF> myCoff = local.getQCOFFBeanContainer();
+		System.out.println(myMouse.size());
+		System.out.println(myMouse.getItemIds().toString());
+		//-----------------------
+		System.out.println(myCoff.size());
+		System.out.println(myCoff.getItemIds().toString());
+		BeanContainer myGeneric = local.getSampleBeanContainer("QMOUS");
+		System.out.println(myGeneric.size());
+		System.out.println(myGeneric.getItemIds().toString());
+	}	
 	
 }
