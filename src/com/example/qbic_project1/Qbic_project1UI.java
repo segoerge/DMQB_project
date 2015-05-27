@@ -22,6 +22,7 @@ import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinServlet;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.ListSelect;
@@ -56,24 +57,34 @@ public class Qbic_project1UI extends UI {
 		ls1.setItemCaptionMode(ListSelect.ItemCaptionMode.PROPERTY);
 		ls1.setItemCaptionPropertyId("name");
 		ls1.setNullSelectionAllowed(false);
-		Label l2 = new Label("Project name: ");
-		Label l3 = new Label("Description: ");
-		Label l4 = new Label("Members: ");
+		
+		// Grouping of Field from project
+		FormLayout project_form = new FormLayout();		
+		Table proj_table = new Table("Project");
+		// Define two columns for the built-in container
+		proj_table.addContainerProperty("Field", String.class, null);
+		proj_table.addContainerProperty("Value",  String.class, null);
+		project_form.addComponent(proj_table);
+		
+		// Hide on load
+		project_form.setVisible(false);
 
 		// Add listener to ListSelect ls1 -> react to project selection
 		ls1.addListener(new Property.ValueChangeListener() {
 
 			@Override
 			public void valueChange(ValueChangeEvent event) {
+				// Make Project form visible
+				project_form.setVisible(true);
 				// Retrieve the currently selected item
 				Item currItem = ls1.getItem(ls1.getValue());
-				// Retrieve the properties of the item
-				l2.setValue("Project name: "
-						+ currItem.getItemProperty("name").getValue());
-				l3.setValue("Description: "
-						+ currItem.getItemProperty("description").getValue());
-				l4.setValue("Members: "
-						+ currItem.getItemProperty("members").getValue());
+				
+				proj_table.addItem(new Object[]{"Project name",currItem.getItemProperty("name").getValue()}, 1);
+				proj_table.addItem(new Object[]{"Description",currItem.getItemProperty("description").getValue()}, 2);
+				proj_table.addItem(new Object[]{"Members",currItem.getItemProperty("members").getValue()}, 3);
+				// Show exactly the currently contained rows (items)
+				proj_table.setPageLength(proj_table.size());
+				
 				// Filter the experiments for the selected project
 				experiments.removeAllContainerFilters();
 				experiments.addContainerFilter(new SimpleStringFilter("projectIdentifier", (String) ls1.getValue(), true, false));
@@ -86,6 +97,19 @@ public class Qbic_project1UI extends UI {
 		ls2.setItemCaptionPropertyId("type");
 		ls2.setNullSelectionAllowed(false);
 		
+		
+		// Add listener to ListSelect ls2 -> react to experiment selection
+		ls2.addListener(new Property.ValueChangeListener() {
+
+			@Override
+			public void valueChange(ValueChangeEvent event) {
+				// Hide project form
+				project_form.setVisible(false);
+				// Retrieve the currently selected item
+				Item currItem = ls2.getItem(ls2.getValue());
+			}
+		});
+		
 
 		// Define root layout
 		final VerticalLayout root = new VerticalLayout();
@@ -97,9 +121,7 @@ public class Qbic_project1UI extends UI {
 		lists.addComponent(ls1);
 		lists.addComponent(ls2);
 		root.addComponent(lists);
-		root.addComponent(l2);
-		root.addComponent(l3);
-		root.addComponent(l4);
+		root.addComponent(project_form);
 		
 	}
 
