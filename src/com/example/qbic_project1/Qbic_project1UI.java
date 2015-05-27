@@ -89,7 +89,8 @@ public class Qbic_project1UI extends UI {
 			tb1.setVisible(false);
 		
 		// Add listener to ListSelect ls1 -> react to project selection
-		ls1.addListener(new Property.ValueChangeListener() {
+	    ls1.setImmediate(true);
+		ls1.addValueChangeListener(new Property.ValueChangeListener() {
 
 			@Override
 			public void valueChange(ValueChangeEvent event) {
@@ -119,12 +120,13 @@ public class Qbic_project1UI extends UI {
 		
 		
 		// Add listener to ListSelect ls2 -> react to experiment selection
-		ls2.addListener(new Property.ValueChangeListener() {
+		ls2.addValueChangeListener(new Property.ValueChangeListener() {
 			
 			@Override
 			public void valueChange(ValueChangeEvent event) {
 				// Show tb1
 				tb1.setVisible(true);
+				project_form.setVisible(false);
 				// Import BeanContainer
 				BeanContainer<String, Sample> samples = importFS.getSampleBeanContainer((String)ls1.getValue()); 
 				tb1.setContainerDataSource(samples);
@@ -139,20 +141,6 @@ public class Qbic_project1UI extends UI {
 			}
 		});
 		
-		
-		// Add listener to ListSelect ls2 -> react to experiment selection
-		ls2.addListener(new Property.ValueChangeListener() {
-
-			@Override
-			public void valueChange(ValueChangeEvent event) {
-				// Hide project form
-				project_form.setVisible(false);
-				// Retrieve the currently selected item
-				Item currItem = ls2.getItem(ls2.getValue());
-			}
-		});
-		
-
 		// Define root layout
 		final VerticalLayout root = new VerticalLayout();
 		final HorizontalLayout lists = new HorizontalLayout();
