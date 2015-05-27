@@ -5,6 +5,7 @@ import java.awt.List;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.LinkedList;
 import java.util.regex.Pattern;
 
@@ -27,7 +28,8 @@ public class TSVParser {
 	//Methodes
 	public void readFile(String file){
 		try {
-			BufferedReader br = new BufferedReader(new FileReader(file));
+			BufferedReader br = new BufferedReader(new InputStreamReader(
+                    this.getClass().getResourceAsStream(file)));
 			String currLine = "";
 			if((currLine =br.readLine()) != null){
 				header = currLine.split("\t");

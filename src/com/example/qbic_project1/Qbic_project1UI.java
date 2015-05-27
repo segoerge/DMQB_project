@@ -47,7 +47,8 @@ public class Qbic_project1UI extends UI {
 	@Override
 	protected void init(VaadinRequest request) {
 		// Import data models
-		ImportFileSystem importFS = new ImportFileSystem("/home/Oliver/git/DMQB_project/src/datasource/");
+		
+		ImportFileSystem importFS = new ImportFileSystem("/resources");
 		BeanContainer<String, Project> projects = importFS.getProjectBeanContainer(); // Projects.tsv
 		BeanContainer<String, Experiment> experiments = importFS.getExperimentBeanContainer(); // Experiments.tsv
 		BeanContainer<String, Data> dataSets = importFS.getDataSetBeanContainer(); // DataSets.tsv
