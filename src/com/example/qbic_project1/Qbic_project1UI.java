@@ -70,9 +70,9 @@ public class Qbic_project1UI extends UI {
 				ls2.setNullSelectionAllowed(false); // No empty selection from list possible
 				ls2.setEnabled(false); // Disable ls2 until selection in ls1 was made
 				
-		// Init table to show samples 
+		// Init table to show samples -> not visible until something in ls2 is selected
 			Table tb1 = new Table("My samples");
-		
+			tb1.setVisible(false);
 		
 		// Add listener to ListSelect ls1 -> react to project selection
 		ls1.addListener(new Property.ValueChangeListener() {
@@ -81,6 +81,8 @@ public class Qbic_project1UI extends UI {
 			public void valueChange(ValueChangeEvent event) {
 				// Enable ls2
 				ls2.setEnabled(true);
+				// Hide tb1 -> a new project was chosen, hide tb1 until selection in ls2 was made
+				tb1.setVisible(false);
 				// Retrieve the currently selected item
 				Item currItem = ls1.getItem(ls1.getValue());
 				// Retrieve the properties of the item
@@ -103,11 +105,18 @@ public class Qbic_project1UI extends UI {
 			
 			@Override
 			public void valueChange(ValueChangeEvent event) {
+				// Show tb1
+				tb1.setVisible(true);
+				// Import BeanContainer
 				BeanContainer<String, Sample> samples = importFS.getSampleBeanContainer((String)ls1.getValue()); 
 				tb1.setContainerDataSource(samples);
 				tb1.setPageLength(samples.size());
 				// Select only some columns to reduce width
-				tb1.setVisibleColumns(new Object[]{"identifier", "SAMPLE_TYPE", "EXPERIMENT"});
+				tb1.setVisibleColumns(new Object[]{"identifier", "SAMPLE_TYPE", "EXPERIMENT", "q_SECONDARY_NAME", "q_NCBI_ORGANISM"});
+				// Filter the samples for selected experiment
+				samples.removeAllContainerFilters();
+				samples.addContainerFilter(new SimpleStringFilter("EXPERIMENT", (String)ls2.getValue(), true, false));
+				tb1.setPageLength(samples.size());
 				
 			}
 		});

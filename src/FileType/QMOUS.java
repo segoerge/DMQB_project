@@ -5,8 +5,8 @@ public class QMOUS implements Sample
 {
 	String Identifier,
 	SAMPLE_TYPE,
-	Q_SECONDARY_NAME,
 	EXPERIMENT,
+	Q_SECONDARY_NAME,
 	PARENT,
 	Q_PRIMARY_TISSUE,
 	Q_TISSUE_DETAILED,
@@ -16,8 +16,8 @@ public class QMOUS implements Sample
 	Condition_genotype,	
 	Condition_tissue;
 
-	public QMOUS(String identifier, String sAMPLE, String tYPEQ_SECONDARY_NAME,
-			String eXPERIMENT, String pARENT, String q_PRIMARY_TISSUE,
+	public QMOUS(String identifier, String sAMPLE, 
+			String eXPERIMENT, String tYPEQ_SECONDARY_NAME, String pARENT, String q_PRIMARY_TISSUE,
 			String q_TISSUE_DETAILED, String q_ADDITIONAL_INFO,
 			String q_NCBI_ORGANISM, String q_EXTERNALDB_ID,
 			String condition_genotype, String condition_tissue) {
