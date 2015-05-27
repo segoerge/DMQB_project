@@ -292,17 +292,7 @@ public class ImportFileSystem {
 	// Main method to test Class Methods
 	public static void main (String[] args)
 	{
-		ImportFileSystem local = new ImportFileSystem("/home/Oliver/git/DMQB_project/src/datasource/");
-		BeanContainer<String, QMOUS> myMouse = local.getQMOUSBeanContainer();
-		BeanContainer<String, QCOFF> myCoff = local.getQCOFFBeanContainer();
-		System.out.println(myMouse.size());
-		System.out.println(myMouse.getItemIds().toString());
-		//-----------------------
-		System.out.println(myCoff.size());
-		System.out.println(myCoff.getItemIds().toString());
-		BeanContainer myGeneric = local.getSampleBeanContainer("QMOUS");
-		System.out.println(myGeneric.size());
-		System.out.println(myGeneric.getItemIds().toString());
+	
 	}	
 	
 }

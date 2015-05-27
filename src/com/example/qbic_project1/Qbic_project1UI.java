@@ -104,7 +104,7 @@ public class Qbic_project1UI extends UI {
 
 				// Retrieve the currently selected item
 				Item currItem = ls1.getItem(ls1.getValue());
-				
+				proj_table.removeAllItems();
 
 				proj_table.addItem(new Object[]{"Project name",currItem.getItemProperty("name").getValue()}, 1);
 				proj_table.addItem(new Object[]{"Description",currItem.getItemProperty("description").getValue()}, 2);
