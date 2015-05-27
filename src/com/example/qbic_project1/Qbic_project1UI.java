@@ -9,6 +9,8 @@ import javax.servlet.annotation.WebServlet;
 import FileType.Data;
 import FileType.Experiment;
 import FileType.Project;
+import FileType.QMOUS;
+import FileType.Sample;
 import FileType.SampleList;
 import Parser.ImportFileSystem;
 
@@ -45,26 +47,39 @@ public class Qbic_project1UI extends UI {
 	@Override
 	protected void init(VaadinRequest request) {
 		// Import data models
-		ImportFileSystem importFS = new ImportFileSystem("/home/Oliver/git/DMQB_project/datasource/");
+		ImportFileSystem importFS = new ImportFileSystem("/home/Oliver/git/DMQB_project/src/datasource/");
 		BeanContainer<String, Project> projects = importFS.getProjectBeanContainer(); // Projects.tsv
 		BeanContainer<String, Experiment> experiments = importFS.getExperimentBeanContainer(); // Experiments.tsv
 		BeanContainer<String, Data> dataSets = importFS.getDataSetBeanContainer(); // DataSets.tsv
-		LinkedList<SampleList> samples = importFS.getSamples();	 // QCOFF.tsv & QMOUS.tsv -> converted to BeanContainer when needed
+		
 		
 		// Show imported projects
 		ListSelect ls1 = new ListSelect("My projects", projects);
-		ls1.setItemCaptionMode(ListSelect.ItemCaptionMode.PROPERTY);
-		ls1.setItemCaptionPropertyId("name");
-		ls1.setNullSelectionAllowed(false);
-		Label l2 = new Label("Project name: ");
+		ls1.setItemCaptionMode(ListSelect.ItemCaptionMode.PROPERTY); // Use a property for item labeling
+		ls1.setItemCaptionPropertyId("name"); // Use property "name" for item labeling
+		ls1.setNullSelectionAllowed(false);  // No empty selection from list possible
+		Label l2 = new Label("Project name: "); // Some labels to show more info about the selection
 		Label l3 = new Label("Description: ");
 		Label l4 = new Label("Members: ");
 
+		// Show experiments 
+				ListSelect ls2 = new ListSelect("My experiments", experiments);
+				ls2.setItemCaptionMode(ListSelect.ItemCaptionMode.PROPERTY); // Use a property for item labeling
+				ls2.setItemCaptionPropertyId("type");  // Use property "type" for item labeling
+				ls2.setNullSelectionAllowed(false); // No empty selection from list possible
+				ls2.setEnabled(false); // Disable ls2 until selection in ls1 was made
+				
+		// Init table to show samples 
+			Table tb1 = new Table("My samples");
+		
+		
 		// Add listener to ListSelect ls1 -> react to project selection
 		ls1.addListener(new Property.ValueChangeListener() {
 
 			@Override
 			public void valueChange(ValueChangeEvent event) {
+				// Enable ls2
+				ls2.setEnabled(true);
 				// Retrieve the currently selected item
 				Item currItem = ls1.getItem(ls1.getValue());
 				// Retrieve the properties of the item
@@ -80,18 +95,28 @@ public class Qbic_project1UI extends UI {
 			}
 		});
 		
-		// Show experiments 
-		ListSelect ls2 = new ListSelect("My experiments", experiments);
-		ls2.setItemCaptionMode(ListSelect.ItemCaptionMode.PROPERTY);
-		ls2.setItemCaptionPropertyId("type");
-		ls2.setNullSelectionAllowed(false);
+		
+		
+		// Add listener to ListSelect ls2 -> react to experiment selection
+		ls2.addListener(new Property.ValueChangeListener() {
+			
+			@Override
+			public void valueChange(ValueChangeEvent event) {
+				BeanContainer<String, Sample> samples = importFS.getSampleBeanContainer((String)ls1.getValue()); 
+				tb1.setContainerDataSource(samples);
+				tb1.setPageLength(samples.size());
+				// Select only some columns to reduce width
+				tb1.setVisibleColumns(new Object[]{"identifier", "SAMPLE_TYPE", "EXPERIMENT"});
+				
+			}
+		});
 		
 
 		// Define root layout
 		final VerticalLayout root = new VerticalLayout();
 		final HorizontalLayout lists = new HorizontalLayout();
 		setContent(root);
-		// Add components to layout layout
+		// Add components to layout lists
 		root.setMargin(true);
 		lists.setMargin(true);
 		lists.addComponent(ls1);
@@ -100,7 +125,7 @@ public class Qbic_project1UI extends UI {
 		root.addComponent(l2);
 		root.addComponent(l3);
 		root.addComponent(l4);
-		
+		root.addComponent(tb1);
 	}
 
 }
