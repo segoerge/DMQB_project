@@ -1,5 +1,10 @@
 package FileType;
 
+import com.vaadin.server.ExternalResource;
+import com.vaadin.server.ThemeResource;
+import com.vaadin.shared.ui.BorderStyle;
+import com.vaadin.ui.Link;
+
 //QCOFF class type needed to create a BeanContainer from QCOFF.tsv
 public class QCOFF implements Sample
 {
@@ -15,6 +20,7 @@ public class QCOFF implements Sample
  Q_SAMPLE_TYPE,
  Q_EXTERNALDB_ID,
  Condition_origin;
+ Link NCBILink;
 
 public QCOFF(String identifier, String sAMPLE_TYPE, String eXPERIMENT,
 		String q_SECONDARY_NAME, String pARENT, String q_PRIMARY_TISSUE,
@@ -33,6 +39,32 @@ public QCOFF(String identifier, String sAMPLE_TYPE, String eXPERIMENT,
 	Q_SAMPLE_TYPE = q_SAMPLE_TYPE;
 	Q_EXTERNALDB_ID = q_EXTERNALDB_ID;
 	Condition_origin = condition_origin;
+	NCBILink = createNCBILink(Q_NCBI_ORGANISM);
+}
+
+public Link getNCBILink() {
+	return NCBILink;
+}
+
+public void setNCBILink(Link NCBILink) {
+	this.NCBILink = NCBILink;
+}
+
+private Link createNCBILink(String ID)
+{
+	// Valid NCBI ID?
+	if (ID.length() != 0)
+	{
+		Link link = new Link(null,
+				new ExternalResource("http://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id="+ID+"&lvl=0"));
+		link.setIcon(new ThemeResource("images/ncbi.gif"));
+		// Open the URL in a new window
+		link.setTargetName("_blank");
+		return link;
+	}
+	// If no NCBI-ID is present, return null
+	return null;
+	
 }
 
 public String getIdentifier() {

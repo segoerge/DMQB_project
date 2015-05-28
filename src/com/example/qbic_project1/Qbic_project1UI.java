@@ -1,8 +1,10 @@
 package com.example.qbic_project1;
 
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
+import java.util.Set;
 
 import javax.servlet.annotation.WebServlet;
 
@@ -12,6 +14,7 @@ import FileType.Project;
 import FileType.QMOUS;
 import FileType.Sample;
 import FileType.SampleList;
+import Filter.MultiSelectFilter;
 import Parser.ImportFileSystem;
 
 import com.vaadin.annotations.Theme;
@@ -20,9 +23,11 @@ import com.vaadin.data.Item;
 import com.vaadin.data.Property;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.util.BeanContainer;
+import com.vaadin.data.util.filter.Compare;
 import com.vaadin.data.util.filter.SimpleStringFilter;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinServlet;
+import com.vaadin.shared.ui.MultiSelectMode;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.FormLayout;
@@ -54,7 +59,7 @@ public class Qbic_project1UI extends UI {
 		BeanContainer<String, Experiment> experiments = importFS.getExperimentBeanContainer(); // Experiments.tsv
 		BeanContainer<String, Data> dataSets = importFS.getDataSetBeanContainer(); // DataSets.tsv
 		
-		
+				
 		// Show imported projects
 		ListSelect ls1 = new ListSelect("My projects", projects);
 
@@ -87,6 +92,14 @@ public class Qbic_project1UI extends UI {
 		// Init table to show samples -> not visible until something in ls2 is selected
 			Table tb1 = new Table("My samples");
 			tb1.setVisible(false);
+			tb1.setSelectable(true); // table selectable 
+			tb1.setMultiSelect(true);
+			//tb1.setMultiSelectMode(MultiSelectMode.SIMPLE);
+			tb1.setImmediate(true);  // selection has immediate effect
+		// Init table to show datasets -> not visible until something in tb1 is selected
+			Table tb2 = new Table("My datasets");
+			tb2.setVisible(false);
+		
 		
 		// Add listener to ListSelect ls1 -> react to project selection
 	    ls1.setImmediate(true);
@@ -99,8 +112,9 @@ public class Qbic_project1UI extends UI {
 				project_form.setVisible(true);
 				// Enable ls2
 				ls2.setEnabled(true);
-				// Hide tb1 -> a new project was chosen, hide tb1 until selection in ls2 was made
+				// Hide tb1 & tb2 -> a new project was chosen, hide tb1 & tb2 until selection in ls2 was made
 				tb1.setVisible(false);
+				tb2.setVisible(false);
 
 				// Retrieve the currently selected item
 				Item currItem = ls1.getItem(ls1.getValue());
@@ -129,16 +143,59 @@ public class Qbic_project1UI extends UI {
 				// Show tb1
 				tb1.setVisible(true);
 				project_form.setVisible(false);
+				// Hide tb2
+				tb2.setVisible(false);
 				// Import BeanContainer
 				BeanContainer<String, Sample> samples = importFS.getSampleBeanContainer((String)ls1.getValue()); 
 				tb1.setContainerDataSource(samples);
 				tb1.setPageLength(samples.size());
 				// Select only some columns to reduce width
-				tb1.setVisibleColumns(new Object[]{"identifier", "SAMPLE_TYPE", "EXPERIMENT", "q_SECONDARY_NAME", "q_NCBI_ORGANISM"});
+				tb1.setVisibleColumns(new Object[]{"identifier", "SAMPLE_TYPE", "EXPERIMENT", "q_SECONDARY_NAME", "NCBILink", "q_NCBI_ORGANISM"});
 				// Filter the samples for selected experiment
 				samples.removeAllContainerFilters();
 				samples.addContainerFilter(new SimpleStringFilter("EXPERIMENT", (String)ls2.getValue(), true, false));
 				tb1.setPageLength(samples.size());
+				
+			}
+		});
+		
+		// Add listener to Table tb1 -> react to sample selection
+		tb1.addValueChangeListener(new Property.ValueChangeListener() {
+			
+			@Override
+			public void valueChange(ValueChangeEvent event) {
+				
+				
+				
+				// Show tb2 -> dataset table & hide sample table
+				tb2.setVisible(true);
+				
+				// Add BeanContainer dataSets to tb2
+				tb2.setContainerDataSource(dataSets);
+				
+				
+				// Filter the datasets for selected sample(s) or project ID
+				dataSets.removeAllContainerFilters();
+				if (tb1.getValue()!=null)
+				{
+					// Get list of selected itemIDs
+					Set<Item> sampleMultiSelect  = (Set<Item>) tb1.getValue();
+					// Put itemIDs in an ArrayList<String>
+					ArrayList<String> multiSelectCollect = new ArrayList<String>();
+					for (Object i:sampleMultiSelect){
+					    multiSelectCollect.add(tb1.getItem(i).getItemProperty("identifier").getValue().toString());
+					}
+					// Use custom filter MultiSelectFilter to filter dataSets
+					dataSets.addContainerFilter(new MultiSelectFilter(multiSelectCollect, "parent"));
+				}
+				else
+				{
+					// Nothing is selected in tb1 (anymore). Hide tb2.
+					tb2.setVisible(false);	
+				}
+				tb2.setPageLength(dataSets.size());
+				
+				
 				
 			}
 		});
@@ -155,6 +212,7 @@ public class Qbic_project1UI extends UI {
 		root.addComponent(lists);
 		root.addComponent(project_form);	
 		root.addComponent(tb1);
+		root.addComponent(tb2);
 	}
 
 }

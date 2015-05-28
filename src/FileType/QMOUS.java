@@ -1,5 +1,10 @@
 package FileType;
 
+import com.vaadin.server.ExternalResource;
+import com.vaadin.server.ThemeResource;
+import com.vaadin.shared.ui.BorderStyle;
+import com.vaadin.ui.Link;
+
 // QMOUS class type needed to create a BeanContainer from QMOUS.tsv
 public class QMOUS implements Sample
 {
@@ -15,6 +20,7 @@ public class QMOUS implements Sample
 	Q_EXTERNALDB_ID,
 	Condition_genotype,	
 	Condition_tissue;
+	Link NCBILink;
 
 	public QMOUS(String identifier, String sAMPLE, 
 			String eXPERIMENT, String tYPEQ_SECONDARY_NAME, String pARENT, String q_PRIMARY_TISSUE,
@@ -33,8 +39,38 @@ public class QMOUS implements Sample
 		Q_EXTERNALDB_ID = q_EXTERNALDB_ID;
 		Condition_genotype = condition_genotype;
 		Condition_tissue = condition_tissue;
+		NCBILink = createNCBILink(Q_NCBI_ORGANISM);
 	}
 
+	
+	public Link getNCBILink() {
+		return NCBILink;
+	}
+
+
+	public void setNCBILink(Link nCBILink) {
+		NCBILink = nCBILink;
+	}
+
+
+	private Link createNCBILink(String ID)
+	{
+		// Valid NCBI ID?
+		if (ID.length() != 0)
+		{
+			Link link = new Link(null,
+					new ExternalResource("http://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id="+ID+"&lvl=0"));
+			link.setIcon(new ThemeResource("images/ncbi.gif"));
+			// Open the URL in a new window
+			link.setTargetName("_blank");
+			return link;
+		}
+		// If no NCBI-ID is present, return null
+		return null;
+		
+	}
+	
+	
 	public String getIdentifier() {
 		return Identifier;
 	}
