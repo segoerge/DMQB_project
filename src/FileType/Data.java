@@ -74,11 +74,9 @@ public class Data {
 		}
 		if (type.equals("NGS_QC"))
 		{
-			
-			FileResource resource = new FileResource(new File(basepath+
-					"/data/"+path+"/fastqc_report.html"));
-			
-			
+			// Local .html -> use ThemeResource
+			ThemeResource resource = new ThemeResource("data/"+path+"/fastqc_report.html");
+					
 			Link link = new Link(null,
 					resource);
 			link.setIcon(new ThemeResource("images/fastqc_icon.png"));
@@ -86,6 +84,15 @@ public class Data {
 			link.setTargetName("_blank");
 			
 			return link;
+			
+			
+			//Link link = new Link(null,
+			//		new ExternalResource("http://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id="+ID+"&lvl=0"));
+			//link.setIcon(new ThemeResource("images/ncbi.gif"));
+			// Open the URL in a new window
+			//link.setTargetName("_blank");
+			//return link;
+			
 			
 			
 		}
