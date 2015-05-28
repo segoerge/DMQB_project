@@ -30,6 +30,7 @@ $v-selection-item-border-radius: 0;
 
 @mixin qbic_project1 {
   @include valo;
-
-  // Insert your own theme rules here
+.hover-samples  .v-table-row:hover,  .hover-samples  .v-table-row-odd:hover {
+    background: lightgrey;
+}
 }

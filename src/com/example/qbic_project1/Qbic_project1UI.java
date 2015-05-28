@@ -94,6 +94,7 @@ public class Qbic_project1UI extends UI {
 			tb1.setVisible(false);
 			tb1.setSelectable(true); // table selectable 
 			tb1.setMultiSelect(true);
+			tb1.addStyleName("hover-samples");
 			//tb1.setMultiSelectMode(MultiSelectMode.SIMPLE);
 			tb1.setImmediate(true);  // selection has immediate effect
 		// Init table to show datasets -> not visible until something in tb1 is selected
