@@ -33,4 +33,14 @@ $v-selection-item-border-radius: 0;
 .hover-samples  .v-table-row:hover,  .hover-samples  .v-table-row-odd:hover {
     background: lightgrey;
 }
+.v-select {
+	padding: 5px;
+}
+
+.v-table {
+	margin: 5px;
+}
+.v-captiontext{
+       margin-left: 5px;
+}
 }

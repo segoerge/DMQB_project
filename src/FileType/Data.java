@@ -90,9 +90,54 @@ public class Data {
 			link.setIcon(new ThemeResource("images/MS.png"));
 			// Open the URL in a new window
 			link.setTargetName("_blank");
-			link.setTargetBorder(BorderStyle.NONE);
-			link.setTargetHeight(10);
-			link.setTargetWidth(10);
+
+			return link;
+		
+			
+		}
+		if (type.equals("INFO"))
+		{
+			FileResource resource = new FileResource(new File(basepath+
+					"/data/"+path));
+			
+			
+			Link link = new Link(null,
+					resource);
+			link.setIcon(new ThemeResource("images/info.png"));
+			// Open the URL in a new window
+			link.setTargetName("_blank");
+
+			return link;
+		
+			
+		}
+		if (type.equals("GRAPHIC"))
+		{
+			FileResource resource = new FileResource(new File(basepath+
+					"/data/"+path));
+			
+			
+			Link link = new Link(null,
+					resource);
+			link.setIcon(new ThemeResource("images/graphic.png"));
+			// Open the URL in a new window
+			link.setTargetName("_blank");
+
+			return link;
+		
+			
+		}
+		if (type.equals("CSV"))
+		{
+			FileResource resource = new FileResource(new File(basepath+
+					"/data/"+path));
+			
+			
+			Link link = new Link(null,
+					resource);
+			link.setIcon(new ThemeResource("images/csv.png"));
+			// Open the URL in a new window
+			link.setTargetName("_blank");
 
 			return link;
 		
@@ -101,7 +146,7 @@ public class Data {
 		if (type.equals("NGS_QC"))
 		{
 			// Local .html -> use ThemeResource
-			ThemeResource resource = new ThemeResource("data/"+path+"/fastqc_report.html");
+			ThemeResource resource = new ThemeResource("html/"+path+"/fastqc_report.html");
 					
 			Link link = new Link(null,
 					resource);
