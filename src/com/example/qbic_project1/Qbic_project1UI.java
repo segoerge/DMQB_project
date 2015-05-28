@@ -188,6 +188,8 @@ public class Qbic_project1UI extends UI {
 					}
 					// Use custom filter MultiSelectFilter to filter dataSets
 					dataSets.addContainerFilter(new MultiSelectFilter(multiSelectCollect, "parent"));
+					// Set visible columns: Link to data, annotation text field and export checkbox
+					tb2.setVisibleColumns(new Object[]{"dataLink", "annotation", "export"});
 				}
 				else
 				{
