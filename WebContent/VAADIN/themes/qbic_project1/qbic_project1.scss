@@ -43,4 +43,13 @@ $v-selection-item-border-radius: 0;
 .v-captiontext{
        margin-left: 5px;
 }
+.v-menubar{
+    background: #A8A8A8; /* medium grey */
+}
+.mymenubar .v-menubar-menuitem-selected {
+    background: #7094B8; /* light blue */
+}
+.v-menubar-menuitem-caption {
+	color: black; 
+}
 }

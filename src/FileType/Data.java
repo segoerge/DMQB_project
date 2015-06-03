@@ -44,7 +44,7 @@ public class Data {
 	{
 		
 		// Does not do too much at the moment
-		return "Write something...";
+		return "";
 	}
 	
 	

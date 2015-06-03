@@ -34,6 +34,8 @@ import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.ListSelect;
+import com.vaadin.ui.MenuBar;
+import com.vaadin.ui.MenuBar.MenuItem;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
@@ -52,8 +54,8 @@ public class Qbic_project1UI extends UI {
 	@SuppressWarnings("deprecation")
 	@Override
 	protected void init(VaadinRequest request) {
-		// Import data models
 		
+		// Import data models		
 		ImportFileSystem importFS = new ImportFileSystem("/resources");
 		BeanContainer<String, Project> projects = importFS.getProjectBeanContainer(); // Projects.tsv
 		BeanContainer<String, Experiment> experiments = importFS.getExperimentBeanContainer(); // Experiments.tsv
@@ -158,6 +160,15 @@ public class Qbic_project1UI extends UI {
 				BeanContainer<String, Sample> samples = importFS.getSampleBeanContainer((String)ls1.getValue()); 
 				tb1.setContainerDataSource(samples);
 				tb3.setContainerDataSource(dataSets1);
+				
+				//clean up column headers
+				tb1.setColumnHeader("identifier", "Identifier");
+				tb1.setColumnHeader("SAMPLE_TYPE", "Type");
+				tb1.setColumnHeader("EXPERIMENT", "Experiment");
+				tb1.setColumnHeader("q_SECONDARY_NAME", "Origin/Tissue");
+				tb1.setColumnHeader("NCBILink", "NCBI Link");
+				tb1.setColumnHeader("q_NCBI_ORGANISM", "NCBI Organism");
+				
 				// Select only some columns to reduce width
 				tb1.setVisibleColumns(new Object[]{"identifier", "SAMPLE_TYPE", "EXPERIMENT", "q_SECONDARY_NAME", "NCBILink", "q_NCBI_ORGANISM"});
 				// Filter the samples for selected experiment
@@ -167,6 +178,13 @@ public class Qbic_project1UI extends UI {
 				dataSets1.addContainerFilter(new SimpleStringFilter("parent", (String)ls2.getValue(), true, false));
 				tb1.setPageLength(samples.size());
 				tb3.setPageLength(dataSets1.size());
+				
+				//clean up table headers
+				tb3.setColumnHeader("dataLink", "Download");
+				tb3.setColumnHeader("path", "File Name");
+				tb3.setColumnHeader("annotation", "Annotation");
+				tb3.setColumnHeader("export", "Export"); //Kann wahrscheinlich noch weg
+				
 				tb3.setVisibleColumns(new Object[]{"dataLink", "path", "annotation", "export"});
 				
 				
@@ -203,6 +221,12 @@ public class Qbic_project1UI extends UI {
 					}
 					// Use custom filter MultiSelectFilter to filter dataSets
 					dataSets2.addContainerFilter(new MultiSelectFilter(multiSelectCollect, "parent"));
+					
+					tb2.setColumnHeader("dataLink", "Download");
+					tb2.setColumnHeader("path", "File Name");
+					tb2.setColumnHeader("annotation", "Annotation");
+					tb2.setColumnHeader("export", "Export"); //Kann wahrscheinlich noch weg
+					
 					// Set visible columns: Link to data, annotation text field and export checkbox
 					tb2.setVisibleColumns(new Object[]{"dataLink", "path", "annotation", "export"});
 				}
@@ -225,7 +249,24 @@ public class Qbic_project1UI extends UI {
 		// Add components to layout lists
 		root.setMargin(true);
 		lists.setMargin(true);
+		
+		// A top-level menu item that opens a submenu
+		MenuBar menu = new MenuBar();
+		menu.setWidth("100%");
+		menu.setStyleName("mymenubar");
+		MenuItem export = menu.addItem("Export", null, null);		
+		root.addComponent(menu);
+		
 		root.addComponent(heading);
+		
+		// Define a menu command for pdf export.
+		MenuBar.Command export_pdf = new MenuBar.Command() {
+		    public void menuSelected(MenuItem selectedItem) {
+		    	// Report class
+		    }  
+		};
+		MenuItem report = export.addItem("Summary as PDF", null, export_pdf);
+		
 		lists.addComponent(ls1);
 		lists.addComponent(ls2);
 		lists.addComponent(tb3);
@@ -233,6 +274,7 @@ public class Qbic_project1UI extends UI {
 		root.addComponent(proj_table);	
 		root.addComponent(tb1);
 		root.addComponent(tb2);
+		
 	}
 
 }
