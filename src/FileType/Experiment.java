@@ -17,7 +17,7 @@ public class Experiment {
 	public Experiment(String projectIdentifier, String experimentIdentifier, String type, SampleList samples, SampleList entities){
 		this.setProjectIdentifier(projectIdentifier);
 		this.setExperimentIdentifier(experimentIdentifier);
-		this.setType(type);
+		this.setType(experimentIdentifier + "_" + type);
 		this.setSamples(samples);
 		this.setEntities(entities);
 		summaryData = new LinkedList<Data>();
@@ -28,7 +28,7 @@ public class Experiment {
 			String type) {
 		this.experimentIdentifier = experimentIdentifier;
 		this.projectIdentifier = projectIdentifier;
-		this.type = type;
+		this.type = experimentIdentifier + "_" + type;
 	}
 
 	public String getProjectIdentifier() {
