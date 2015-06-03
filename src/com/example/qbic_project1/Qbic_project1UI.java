@@ -183,9 +183,9 @@ public class Qbic_project1UI extends UI {
 				tb3.setColumnHeader("dataLink", "Download");
 				tb3.setColumnHeader("path", "File Name");
 				tb3.setColumnHeader("annotation", "Annotation");
-				tb3.setColumnHeader("export", "Export"); //Kann wahrscheinlich noch weg
+				//tb3.setColumnHeader("export", "Export"); //Kann wahrscheinlich noch weg
 				
-				tb3.setVisibleColumns(new Object[]{"dataLink", "path", "annotation", "export"});
+				tb3.setVisibleColumns(new Object[]{"dataLink", "path", "annotation"});
 				
 				
 				
@@ -225,10 +225,10 @@ public class Qbic_project1UI extends UI {
 					tb2.setColumnHeader("dataLink", "Download");
 					tb2.setColumnHeader("path", "File Name");
 					tb2.setColumnHeader("annotation", "Annotation");
-					tb2.setColumnHeader("export", "Export"); //Kann wahrscheinlich noch weg
+					//tb2.setColumnHeader("export", "Export"); //Kann wahrscheinlich noch weg
 					
 					// Set visible columns: Link to data, annotation text field and export checkbox
-					tb2.setVisibleColumns(new Object[]{"dataLink", "path", "annotation", "export"});
+					tb2.setVisibleColumns(new Object[]{"dataLink", "path", "annotation"});
 				}
 				else
 				{
