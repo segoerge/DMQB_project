@@ -40,6 +40,7 @@ import com.vaadin.ui.Table;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 
+
 @SuppressWarnings("serial")
 @Theme("qbic_project1")
 public class Qbic_project1UI extends UI {
@@ -256,16 +257,7 @@ public class Qbic_project1UI extends UI {
 		menu.setStyleName("mymenubar");
 		MenuItem export = menu.addItem("Export", null, null);		
 		root.addComponent(menu);
-		
 		root.addComponent(heading);
-		
-		// Define a menu command for pdf export.
-		MenuBar.Command export_pdf = new MenuBar.Command() {
-		    public void menuSelected(MenuItem selectedItem) {
-		    	// Report class
-		    }  
-		};
-		MenuItem report = export.addItem("Summary as PDF", null, export_pdf);
 		
 		lists.addComponent(ls1);
 		lists.addComponent(ls2);
@@ -274,6 +266,14 @@ public class Qbic_project1UI extends UI {
 		root.addComponent(proj_table);	
 		root.addComponent(tb1);
 		root.addComponent(tb2);
+		
+		// Define a menu command for pdf export.
+		MenuBar.Command export_pdf = new MenuBar.Command() {
+		    public void menuSelected(MenuItem selectedItem) {
+		    	// call report generation here
+		    }  
+		};
+		MenuItem report = export.addItem("Summary as PDF", null, export_pdf);
 		
 	}
 
