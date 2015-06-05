@@ -94,6 +94,7 @@ public class Qbic_project1UI extends UI {
 		ls2.setItemCaptionPropertyId("typeAnnotation");  // Use property "type" for item labeling
 		ls2.setNullSelectionAllowed(false); // No empty selection from list possible
 		ls2.setEnabled(false); // Disable ls2 until selection in ls1 was made
+		ls2.setVisible(false);
 				
 		// Init table to show samples -> not visible until something in ls2 is selected
 		Table tb1 = new Table("My samples");
@@ -122,6 +123,7 @@ public class Qbic_project1UI extends UI {
 				proj_table.setVisible(true);
 				// Enable ls2
 				ls2.setEnabled(true);
+				ls2.setVisible(true);
 				// Hide tb1 & tb2 -> a new project was chosen, hide tb1 & tb2 until selection in ls2 was made
 				tb1.setVisible(false);
 				tb2.setVisible(false);
