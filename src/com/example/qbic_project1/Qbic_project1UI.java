@@ -91,7 +91,7 @@ public class Qbic_project1UI extends UI {
 		// Show experiments 
 		ListSelect ls2 = new ListSelect("My experiments", experiments);
 		ls2.setItemCaptionMode(ListSelect.ItemCaptionMode.PROPERTY); // Use a property for item labeling
-		ls2.setItemCaptionPropertyId("type");  // Use property "type" for item labeling
+		ls2.setItemCaptionPropertyId("typeAnnotation");  // Use property "type" for item labeling
 		ls2.setNullSelectionAllowed(false); // No empty selection from list possible
 		ls2.setEnabled(false); // Disable ls2 until selection in ls1 was made
 				
@@ -107,7 +107,7 @@ public class Qbic_project1UI extends UI {
 		Table tb2 = new Table("My sample datasets");
 		tb2.setVisible(false);
 		// Init table to show experiment datasets -> not visible until something in exp is selected
-		Table tb3 = new Table("My experiment datasets");
+		Table tb3 = new Table("Available data");
 		tb3.setVisible(false);
 		
 		
@@ -151,7 +151,10 @@ public class Qbic_project1UI extends UI {
 			
 			@Override
 			public void valueChange(ValueChangeEvent event) {
-				// Show tb1
+				
+				// Check if experiment selection contains something with "Analysis"
+				Boolean analysisExperiment = ls2.getItemCaption(ls2.getValue()).toString().contains("Analysis");
+				// Show tb1 
 				tb1.setVisible(true);
 				tb3.setVisible(true);
 				proj_table.setVisible(false);
@@ -169,9 +172,10 @@ public class Qbic_project1UI extends UI {
 				tb1.setColumnHeader("q_SECONDARY_NAME", "Origin/Tissue");
 				tb1.setColumnHeader("NCBILink", "NCBI Link");
 				tb1.setColumnHeader("q_NCBI_ORGANISM", "NCBI Organism");
+				tb1.setColumnHeader("annotation", "Annotation");
 				
 				// Select only some columns to reduce width
-				tb1.setVisibleColumns(new Object[]{"identifier", "SAMPLE_TYPE", "EXPERIMENT", "q_SECONDARY_NAME", "NCBILink", "q_NCBI_ORGANISM"});
+				tb1.setVisibleColumns(new Object[]{"identifier", "SAMPLE_TYPE", "EXPERIMENT", "q_SECONDARY_NAME", "NCBILink", "q_NCBI_ORGANISM", "annotation"});
 				// Filter the samples for selected experiment
 				samples.removeAllContainerFilters();
 				samples.addContainerFilter(new SimpleStringFilter("EXPERIMENT", (String)ls2.getValue(), true, false));
@@ -187,8 +191,8 @@ public class Qbic_project1UI extends UI {
 				//tb3.setColumnHeader("export", "Export"); //Kann wahrscheinlich noch weg
 				
 				tb3.setVisibleColumns(new Object[]{"dataLink", "path", "annotation"});
-				
-				
+				// If Experiment is Type "Analysis", table1 is not needed -> setVisible to false
+				if (analysisExperiment) tb1.setVisible(false);
 				
 			}
 		});
@@ -199,19 +203,24 @@ public class Qbic_project1UI extends UI {
 			@Override
 			public void valueChange(ValueChangeEvent event) {
 				
+				// Check if experiment selection is "Sample Extraction"
+				Boolean sampleExperiment = ls2.getItemCaption(ls2.getValue()).toString().contains("Sample");
 				
 				
 				// Show tb2 -> dataset table & hide sample table
-				tb2.setVisible(true);
+				tb3.setVisible(true); //changed from tb2 to tb3
 				
-				// Add BeanContainer dataSets to tb2
+				// Add BeanContainer dataSets to tb3 (changed from tb2 to tb3)
 				dataSets2.removeAllContainerFilters();
-				tb2.setContainerDataSource(dataSets2);
+				if (tb1.getValue()!=null && sampleExperiment)
+				tb3.setContainerDataSource(dataSets2); //changed from tb2 to tb3
+				
+			
 				
 				
 				// Filter the datasets for selected sample(s) or project ID
 
-				if (tb1.getValue()!=null)
+				if (tb1.getValue()!=null && sampleExperiment)
 				{
 					// Get list of selected itemIDs
 					Set<Item> sampleMultiSelect  = (Set<Item>) tb1.getValue();
@@ -223,20 +232,21 @@ public class Qbic_project1UI extends UI {
 					// Use custom filter MultiSelectFilter to filter dataSets
 					dataSets2.addContainerFilter(new MultiSelectFilter(multiSelectCollect, "parent"));
 					
-					tb2.setColumnHeader("dataLink", "Download");
-					tb2.setColumnHeader("path", "File Name");
-					tb2.setColumnHeader("annotation", "Annotation");
+					tb3.setColumnHeader("dataLink", "Download"); //changed from tb2 to tb3
+					tb3.setColumnHeader("path", "File Name"); //changed from tb2 to tb3
+					tb3.setColumnHeader("annotation", "Annotation"); //changed from tb2 to tb3
 					//tb2.setColumnHeader("export", "Export"); //Kann wahrscheinlich noch weg
 					
 					// Set visible columns: Link to data, annotation text field and export checkbox
-					tb2.setVisibleColumns(new Object[]{"dataLink", "path", "annotation"});
+					tb3.setVisibleColumns(new Object[]{"dataLink", "path", "annotation"}); //changed from tb2 to tb3
+					tb3.setPageLength(dataSets2.size()); //changed from tb2 to tb3
 				}
 				else
 				{
 					// Nothing is selected in tb1 (anymore). Hide tb2.
 					tb2.setVisible(false);	
 				}
-				tb2.setPageLength(dataSets2.size());
+				
 				
 				
 				

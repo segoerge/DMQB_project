@@ -2,6 +2,8 @@ package FileType;
 
 import java.util.LinkedList;
 
+import Parser.ImportFileSystem;
+
 public class Experiment {
 	
 	//Attribute
@@ -11,6 +13,8 @@ public class Experiment {
 	private SampleList sampleList;
 	private SampleList entityList;
 	private LinkedList<Data> summaryData;
+	private String typeAnnotation;
+	
 	
 	//Constructor
 	
@@ -21,21 +25,32 @@ public class Experiment {
 		this.setSamples(samples);
 		this.setEntities(entities);
 		summaryData = new LinkedList<Data>();
+		//this.typeAnnotation = generateTypeAnnotation(type);
 	}
 	
+	
+
 	// Constructor for smaller Experiment-Object -> used in Vaadin-GUI
 	public Experiment(String experimentIdentifier, String projectIdentifier,
 			String type) {
 		this.experimentIdentifier = experimentIdentifier;
 		this.projectIdentifier = projectIdentifier;
 		this.type = experimentIdentifier + "_" + type;
+	this.typeAnnotation = generateTypeAnnotation(type);
 	}
 
 	public String getProjectIdentifier() {
 		return projectIdentifier;
 	}
 
-
+	// Generates a simple Type annotation which can be displayed to the user
+	private String generateTypeAnnotation(String experimentID) 
+	{
+		if (experimentID.contains("EXPERIMENTAL_DESIGN")) return "Experimental Design";
+		if (experimentID.contains("SAMPLE_EXT")) return "Sample Extraction";
+		if (experimentID.contains("ANALYSIS")) return "Analysis data";
+		return "Unknown Experiment Type";
+	}
 	public void setProjectIdentifier(String projectIdentifier) {
 		this.projectIdentifier = projectIdentifier;
 	}
@@ -79,4 +94,18 @@ public class Experiment {
 	public void setSummaryData(LinkedList<Data> summaryData) {
 		this.summaryData = summaryData;
 	}
+
+
+
+	public String getTypeAnnotation() {
+		return typeAnnotation;
+	}
+
+
+
+	public void setTypeAnnotation(String typeAnnotation) {
+		this.typeAnnotation = typeAnnotation;
+	}
+	
+	
 }

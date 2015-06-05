@@ -4,6 +4,7 @@ import com.vaadin.server.ExternalResource;
 import com.vaadin.server.ThemeResource;
 import com.vaadin.shared.ui.BorderStyle;
 import com.vaadin.ui.Link;
+import com.vaadin.ui.TextField;
 
 // QMOUS class type needed to create a BeanContainer from QMOUS.tsv
 public class QMOUS implements Sample
@@ -21,6 +22,7 @@ public class QMOUS implements Sample
 	Condition_genotype,	
 	Condition_tissue;
 	Link NCBILink;
+	TextField annotation;
 
 	public QMOUS(String identifier, String sAMPLE, 
 			String eXPERIMENT, String tYPEQ_SECONDARY_NAME, String pARENT, String q_PRIMARY_TISSUE,
@@ -40,6 +42,7 @@ public class QMOUS implements Sample
 		Condition_genotype = condition_genotype;
 		Condition_tissue = condition_tissue;
 		NCBILink = createNCBILink(Q_NCBI_ORGANISM);
+		annotation = new TextField();
 	}
 
 	
@@ -165,6 +168,16 @@ public class QMOUS implements Sample
 
 	public void setCondition_tissue(String condition_tissue) {
 		Condition_tissue = condition_tissue;
+	}
+
+
+	public TextField getAnnotation() {
+		return annotation;
+	}
+
+
+	public void setAnnotation(TextField annotation) {
+		this.annotation = annotation;
 	}
 	
 

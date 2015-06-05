@@ -4,6 +4,7 @@ import com.vaadin.server.ExternalResource;
 import com.vaadin.server.ThemeResource;
 import com.vaadin.shared.ui.BorderStyle;
 import com.vaadin.ui.Link;
+import com.vaadin.ui.TextField;
 
 //QCOFF class type needed to create a BeanContainer from QCOFF.tsv
 public class QCOFF implements Sample
@@ -21,6 +22,7 @@ public class QCOFF implements Sample
  Q_EXTERNALDB_ID,
  Condition_origin;
  Link NCBILink;
+ TextField annotation;
 
 public QCOFF(String identifier, String sAMPLE_TYPE, String eXPERIMENT,
 		String q_SECONDARY_NAME, String pARENT, String q_PRIMARY_TISSUE,
@@ -40,6 +42,7 @@ public QCOFF(String identifier, String sAMPLE_TYPE, String eXPERIMENT,
 	Q_EXTERNALDB_ID = q_EXTERNALDB_ID;
 	Condition_origin = condition_origin;
 	NCBILink = createNCBILink(Q_NCBI_ORGANISM);
+	annotation = new TextField();
 }
 
 public Link getNCBILink() {
@@ -161,6 +164,14 @@ public String getCondition_origin() {
 
 public void setCondition_origin(String condition_origin) {
 	Condition_origin = condition_origin;
+}
+
+public TextField getAnnotation() {
+	return annotation;
+}
+
+public void setAnnotation(TextField annotation) {
+	this.annotation = annotation;
 }
 
 
