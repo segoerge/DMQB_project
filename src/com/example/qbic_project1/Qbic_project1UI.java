@@ -3,6 +3,8 @@ package com.example.qbic_project1;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Set;
 
@@ -23,6 +25,7 @@ import com.vaadin.data.Item;
 import com.vaadin.data.Property;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.util.BeanContainer;
+import com.vaadin.data.util.IndexedContainer;
 import com.vaadin.data.util.filter.Compare;
 import com.vaadin.data.util.filter.SimpleStringFilter;
 import com.vaadin.server.VaadinRequest;
@@ -37,8 +40,10 @@ import com.vaadin.ui.ListSelect;
 import com.vaadin.ui.MenuBar;
 import com.vaadin.ui.MenuBar.MenuItem;
 import com.vaadin.ui.Table;
+import com.vaadin.ui.TextField;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.Window;
 
 
 @SuppressWarnings("serial")
@@ -62,7 +67,8 @@ public class Qbic_project1UI extends UI {
 		BeanContainer<String, Experiment> experiments = importFS.getExperimentBeanContainer(); // Experiments.tsv
 		BeanContainer<String, Data> dataSets1 = importFS.getDataSetBeanContainer(); // DataSets.tsv
 		BeanContainer<String, Data> dataSets2 = importFS.getDataSetBeanContainer(); // DataSets.tsv
-		
+		BeanContainer<String, Sample> QCOFFsamples = importFS.getSampleBeanContainer("QCOFF");
+		BeanContainer<String, Sample> QMOUSsamples = importFS.getSampleBeanContainer("QMOUS");
 		
 		Label heading = new Label();
 		heading.setStyleName("h1");
@@ -104,8 +110,8 @@ public class Qbic_project1UI extends UI {
 		tb1.addStyleName("hover-samples");
 		//tb1.setMultiSelectMode(MultiSelectMode.SIMPLE);
 		tb1.setImmediate(true);  // selection has immediate effect
-		// Init table to show sample datasets -> not visible until something in tb1 is selected
-		Table tb2 = new Table("My sample datasets");
+		// Init table to show summary -> not visible until menu item is selected
+		Table tb2 = new Table("Project Summary");
 		tb2.setVisible(false);
 		// Init table to show experiment datasets -> not visible until something in exp is selected
 		Table tb3 = new Table("Available data");
@@ -163,7 +169,18 @@ public class Qbic_project1UI extends UI {
 				// Hide tb2
 				tb2.setVisible(false);
 				// Import BeanContainer
-				BeanContainer<String, Sample> samples = importFS.getSampleBeanContainer((String)ls1.getValue()); 
+				//BeanContainer<String, Sample> samples = importFS.getSampleBeanContainer((String)ls1.getValue()); 
+				String project = (String) ls1.getValue();
+				BeanContainer<String, Sample> samples = null;
+				if (project.equals("QMOUS"))
+				{
+					samples = QMOUSsamples;
+				}
+				if (project.equals("QCOFF"))
+				{
+					samples = QCOFFsamples;
+				}
+				
 				tb1.setContainerDataSource(samples);
 				tb3.setContainerDataSource(dataSets1);
 				
@@ -280,13 +297,96 @@ public class Qbic_project1UI extends UI {
 		root.addComponent(tb2);
 		
 		// Define a menu command for pdf export.
-		MenuBar.Command export_pdf = new MenuBar.Command() {
+		MenuBar.Command proj_summary = new MenuBar.Command() {
 		    public void menuSelected(MenuItem selectedItem) {
 		    	// call report generation here
+		    	tb2.setVisible(true);
+		    	
+		    	IndexedContainer sumContainer = generateProjSummary(ls1, (BeanContainer<String, Sample>) tb1.getContainerDataSource(), ls2);
+		    	tb2.setContainerDataSource(sumContainer);
+		    	tb2.setPageLength(sumContainer.size());
+		    	
+		    	// Open table in a new window
+		    	Window subWindow = new Window("Sub-window");
+		        VerticalLayout subContent = new VerticalLayout();
+		        subContent.setMargin(true);
+		        subWindow.setContent(subContent);
+		        subContent.addComponent(tb2);
+		        // Center it in the browser window
+		        subWindow.center();
+		        
+		        // Open it in the UI
+		        addWindow(subWindow);
+		 
 		    }  
 		};
-		MenuItem report = export.addItem("Summary as PDF", null, export_pdf);
+		MenuItem report = export.addItem("Project Summary", null, proj_summary);
 		
+	}
+	private IndexedContainer generateProjSummary(ListSelect ls1, BeanContainer<String, Sample> samples, ListSelect ls2)
+	{
+		IndexedContainer sumContainer = new IndexedContainer();
+    	sumContainer.addContainerProperty("Entry", String.class, "");
+    	sumContainer.addContainerProperty("Value", String.class, "");
+    	// 1. Project Info
+    	Item ls1Item = ls1.getItem(ls1.getValue()); // Get data from ls1
+    	Object newEntry = sumContainer.addItem();
+    	sumContainer.getContainerProperty(newEntry, "Entry").setValue("Project Information");
+    	sumContainer.getContainerProperty(newEntry, "Value").setValue("");
+    	 newEntry = sumContainer.addItem();
+    	sumContainer.getContainerProperty(newEntry, "Entry").setValue("Project Name");
+    	sumContainer.getContainerProperty(newEntry, "Value").setValue(ls1Item.getItemProperty("name").getValue());
+    	 newEntry = sumContainer.addItem();
+    	sumContainer.getContainerProperty(newEntry, "Entry").setValue("Description");
+    	sumContainer.getContainerProperty(newEntry, "Value").setValue(ls1Item.getItemProperty("description").getValue());
+    	 newEntry = sumContainer.addItem();
+    	sumContainer.getContainerProperty(newEntry, "Entry").setValue("Members");
+    	sumContainer.getContainerProperty(newEntry, "Value").setValue(ls1Item.getItemProperty("members").getValue());
+    	// 2. Design Info
+    	samples.removeAllContainerFilters();
+		samples.addContainerFilter(new SimpleStringFilter("SAMPLE_TYPE", "Q_BIOLOGICAL_ENTITY", true, false));
+		newEntry = sumContainer.addItem();
+		sumContainer.getContainerProperty(newEntry, "Entry").setValue("Experiment Design Information");
+    	sumContainer.getContainerProperty(newEntry, "Value").setValue("");
+    	 newEntry = sumContainer.addItem();
+     	sumContainer.getContainerProperty(newEntry, "Entry").setValue("Number of Species");
+     	sumContainer.getContainerProperty(newEntry, "Value").setValue(samples.size()+"");
+     	// Iterate over samples to get unique sample conditions
+     	Set<String> items = new HashSet<String>();
+     	for (Iterator i = samples.getItemIds().iterator(); i.hasNext();)
+     	{
+     	// Get the current item identifier, which is an integer.
+     	    String iid =  (String) i.next();
+     	    
+     	    // Now get the actual item from the table.
+     	    Item item = samples.getItem(iid);
+     	    
+     	    // Do something
+     	   items.add((String) item.getItemProperty("q_SECONDARY_NAME").getValue());
+     	}
+     	newEntry = sumContainer.addItem();
+     	sumContainer.getContainerProperty(newEntry, "Entry").setValue("Conditions");
+     	sumContainer.getContainerProperty(newEntry, "Value").setValue(items.toString());
+     // Iterate over samples and add all entries containing annotations to summary
+     	
+     	for (Iterator i = samples.getItemIds().iterator(); i.hasNext();)
+     	{
+     	// Get the current item identifier, which is an integer.
+     	    String iid =  (String) i.next();
+     	    
+     	    // Now get the actual item from the table.
+     	    Item item = samples.getItem(iid);
+     	    
+     	    // Do something
+     	    TextField annotation = (TextField) item.getItemProperty("annotation").getValue();
+     	    if (!annotation.getValue().isEmpty())
+     	    {
+     	    	newEntry = sumContainer.addItem();
+     	     	sumContainer.getContainerProperty(newEntry, "Entry").setValue(item.getItemProperty("identifier").getValue());
+     	     	sumContainer.getContainerProperty(newEntry, "Value").setValue(annotation.getValue());
+     	    }
+     	}
+    	return sumContainer;
 	}
 
 }
