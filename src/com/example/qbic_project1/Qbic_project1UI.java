@@ -44,7 +44,7 @@ import com.vaadin.ui.TextField;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
-
+import org.vaadin.haijian.*;
 
 @SuppressWarnings("serial")
 @Theme("qbic_project1")
@@ -55,9 +55,6 @@ public class Qbic_project1UI extends UI {
 	public static class Servlet extends VaadinServlet {
 	}
 
-	
-
-	@SuppressWarnings("deprecation")
 	@Override
 	protected void init(VaadinRequest request) {
 		
@@ -312,6 +309,21 @@ public class Qbic_project1UI extends UI {
 		        subContent.setMargin(true);
 		        subWindow.setContent(subContent);
 		        subContent.addComponent(tb2);
+		        
+		        //export addon
+		        
+		        HorizontalLayout buttons = new HorizontalLayout();
+		        ExcelExporter excelExporter = new ExcelExporter(tb2);
+		        excelExporter.setCaption("Export to Excel");
+		        buttons.addComponent(excelExporter);
+		        
+		        PdfExporter pdfExporter = new PdfExporter(tb2);
+		        pdfExporter.setCaption("Export to PDF");
+		        pdfExporter.setWithBorder(true);
+		        buttons.addComponent(pdfExporter);
+		        
+		        subContent.addComponent(buttons);
+		        
 		        // Center it in the browser window
 		        subWindow.center();
 		        
