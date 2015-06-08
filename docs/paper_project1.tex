@@ -54,9 +54,13 @@ of data annotation.
 \subsection{Data}
 The main data structure is provided in form of TSV-files. The file \emph{projects.tsv} contains multiple projects together with several attributes, describing the project. Projects themselves can contain multiple different experiments (\emph{experiments.tsv}), which in turn contain two different types of samples (\emph{QCOFF.tsv} and \emph{QMOUSE.tsv}). \emph{QCOFF} is storing samples of a coffee diversity project, whereas \emph{QCOFF} consists of samples for a mouse knockout project. The set of samples can be structured hierarchically, with patients/organisms at the top (Entity samples) from which tissue/cell samples are derived. Experiments or samples can contain datasets, stored in \emph{datasets.tsv}. Datasets link to one or more files. These files are for instance further descriptions in plain text, images, quality control HTML documents or FASTQ files. All structures of the system contain unique identifiers to connect the set of TSV-files together in a logical way.
 \section{Results}
-...
+The resulting User Interface tries to simplify 
 \section{Discussion}
-...
+Discussion of the columns, which are important for visualisation
+What did we additional need ( IDs or stuff?)
+How do we want to visualize, what is expected at the experiment level. how should users navigate.
+Experiment subpoints
+
 \bibliographystyle{apalike}
 \clearpage
 \bibliography{ref}
