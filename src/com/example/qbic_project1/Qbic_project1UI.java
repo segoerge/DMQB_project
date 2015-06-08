@@ -40,10 +40,12 @@ import com.vaadin.ui.ListSelect;
 import com.vaadin.ui.MenuBar;
 import com.vaadin.ui.MenuBar.MenuItem;
 import com.vaadin.ui.Table;
+import com.vaadin.ui.Table.Align;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
+
 import org.vaadin.haijian.*;
 
 @SuppressWarnings("serial")
@@ -70,6 +72,9 @@ public class Qbic_project1UI extends UI {
 		Label heading = new Label();
 		heading.setStyleName("h1");
 		heading.setValue("Project Visualizer");
+		
+		MenuBar menu = new MenuBar();
+		menu.setEnabled(false);
 		
 		// Show imported projects
 		ListSelect ls1 = new ListSelect("My projects", projects);
@@ -124,6 +129,8 @@ public class Qbic_project1UI extends UI {
 
 				// Make Project form visible
 				proj_table.setVisible(true);
+				// Make Exporter visible
+				menu.setEnabled(true);
 				// Enable ls2
 				ls2.setEnabled(true);
 				ls2.setVisible(true);
@@ -169,6 +176,7 @@ public class Qbic_project1UI extends UI {
 				//BeanContainer<String, Sample> samples = importFS.getSampleBeanContainer((String)ls1.getValue()); 
 				String project = (String) ls1.getValue();
 				BeanContainer<String, Sample> samples = null;
+
 				if (project.equals("QMOUS"))
 				{
 					samples = QMOUSsamples;
@@ -278,7 +286,6 @@ public class Qbic_project1UI extends UI {
 		lists.setMargin(true);
 		
 		// A top-level menu item that opens a submenu
-		MenuBar menu = new MenuBar();
 		menu.setWidth("100%");
 		menu.setStyleName("mymenubar");
 		MenuItem export = menu.addItem("Export", null, null);		
@@ -298,10 +305,23 @@ public class Qbic_project1UI extends UI {
 		    public void menuSelected(MenuItem selectedItem) {
 		    	// call report generation here
 		    	tb2.setVisible(true);
+
+				String project = (String) ls1.getValue();
+				BeanContainer<String, Sample> samples = null;
+
+				if (project.equals("QMOUS"))
+				{
+					samples = QMOUSsamples;
+				}
+				if (project.equals("QCOFF"))
+				{
+					samples = QCOFFsamples;
+				}
 		    	
-		    	IndexedContainer sumContainer = generateProjSummary(ls1, (BeanContainer<String, Sample>) tb1.getContainerDataSource(), ls2);
+		    	IndexedContainer sumContainer = generateProjSummary(ls1, samples);
 		    	tb2.setContainerDataSource(sumContainer);
 		    	tb2.setPageLength(sumContainer.size());
+		    	tb1.setPageLength(tb1.size());
 		    	
 		    	// Open table in a new window
 		    	Window subWindow = new Window("Sub-window");
@@ -319,7 +339,7 @@ public class Qbic_project1UI extends UI {
 		        
 		        PdfExporter pdfExporter = new PdfExporter(tb2);
 		        pdfExporter.setCaption("Export to PDF");
-		        pdfExporter.setWithBorder(true);
+		        pdfExporter.setWithBorder(false);
 		        buttons.addComponent(pdfExporter);
 		        
 		        subContent.addComponent(buttons);
@@ -335,7 +355,7 @@ public class Qbic_project1UI extends UI {
 		MenuItem report = export.addItem("Project Summary", null, proj_summary);
 		
 	}
-	private IndexedContainer generateProjSummary(ListSelect ls1, BeanContainer<String, Sample> samples, ListSelect ls2)
+	private IndexedContainer generateProjSummary(ListSelect ls1, BeanContainer<String, Sample> samples)
 	{
 		IndexedContainer sumContainer = new IndexedContainer();
     	sumContainer.addContainerProperty("Entry", String.class, "");
@@ -343,25 +363,27 @@ public class Qbic_project1UI extends UI {
     	// 1. Project Info
     	Item ls1Item = ls1.getItem(ls1.getValue()); // Get data from ls1
     	Object newEntry = sumContainer.addItem();
-    	sumContainer.getContainerProperty(newEntry, "Entry").setValue("Project Information");
+    	sumContainer.getContainerProperty(newEntry, "Entry").setValue("-- Project Information --");
     	sumContainer.getContainerProperty(newEntry, "Value").setValue("");
     	 newEntry = sumContainer.addItem();
-    	sumContainer.getContainerProperty(newEntry, "Entry").setValue("Project Name");
+    	sumContainer.getContainerProperty(newEntry, "Entry").setValue("Project Name:");
     	sumContainer.getContainerProperty(newEntry, "Value").setValue(ls1Item.getItemProperty("name").getValue());
     	 newEntry = sumContainer.addItem();
-    	sumContainer.getContainerProperty(newEntry, "Entry").setValue("Description");
+    	sumContainer.getContainerProperty(newEntry, "Entry").setValue("Description:");
     	sumContainer.getContainerProperty(newEntry, "Value").setValue(ls1Item.getItemProperty("description").getValue());
     	 newEntry = sumContainer.addItem();
-    	sumContainer.getContainerProperty(newEntry, "Entry").setValue("Members");
+    	sumContainer.getContainerProperty(newEntry, "Entry").setValue("Members:");
     	sumContainer.getContainerProperty(newEntry, "Value").setValue(ls1Item.getItemProperty("members").getValue());
+    	sumContainer.getContainerProperty(newEntry, "Entry").setValue("");
+    	sumContainer.getContainerProperty(newEntry, "Value").setValue("");
     	// 2. Design Info
     	samples.removeAllContainerFilters();
 		samples.addContainerFilter(new SimpleStringFilter("SAMPLE_TYPE", "Q_BIOLOGICAL_ENTITY", true, false));
 		newEntry = sumContainer.addItem();
-		sumContainer.getContainerProperty(newEntry, "Entry").setValue("Experiment Design Information");
+		sumContainer.getContainerProperty(newEntry, "Entry").setValue("-- Experiment Design Information --");
     	sumContainer.getContainerProperty(newEntry, "Value").setValue("");
     	 newEntry = sumContainer.addItem();
-     	sumContainer.getContainerProperty(newEntry, "Entry").setValue("Number of Species");
+     	sumContainer.getContainerProperty(newEntry, "Entry").setValue("Number of Species:");
      	sumContainer.getContainerProperty(newEntry, "Value").setValue(samples.size()+"");
      	// Iterate over samples to get unique sample conditions
      	Set<String> items = new HashSet<String>();
@@ -377,7 +399,7 @@ public class Qbic_project1UI extends UI {
      	   items.add((String) item.getItemProperty("q_SECONDARY_NAME").getValue());
      	}
      	newEntry = sumContainer.addItem();
-     	sumContainer.getContainerProperty(newEntry, "Entry").setValue("Conditions");
+     	sumContainer.getContainerProperty(newEntry, "Entry").setValue("Conditions:");
      	sumContainer.getContainerProperty(newEntry, "Value").setValue(items.toString());
      // Iterate over samples and add all entries containing annotations to summary
      	
