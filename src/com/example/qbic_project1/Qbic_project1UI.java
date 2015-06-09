@@ -318,7 +318,7 @@ public class Qbic_project1UI extends UI {
 					samples = QCOFFsamples;
 				}
 		    	
-		    	IndexedContainer sumContainer = generateProjSummary(ls1, samples);
+		    	IndexedContainer sumContainer = generateProjSummary(ls1, samples, dataSets1, ls2, dataSets2);
 		    	tb2.setContainerDataSource(sumContainer);
 		    	tb2.setPageLength(sumContainer.size());
 		    	tb1.setPageLength(tb1.size());
@@ -355,7 +355,7 @@ public class Qbic_project1UI extends UI {
 		MenuItem report = export.addItem("Project Summary", null, proj_summary);
 		
 	}
-	private IndexedContainer generateProjSummary(ListSelect ls1, BeanContainer<String, Sample> samples)
+	private IndexedContainer generateProjSummary(ListSelect ls1, BeanContainer<String, Sample> samples, BeanContainer<String, Data> dataSet2, ListSelect ls2, BeanContainer<String, Data> dataSet1)
 	{
 		IndexedContainer sumContainer = new IndexedContainer();
     	sumContainer.addContainerProperty("Entry", String.class, "");
@@ -420,7 +420,97 @@ public class Qbic_project1UI extends UI {
      	     	sumContainer.getContainerProperty(newEntry, "Value").setValue(annotation.getValue());
      	    }
      	}
+     	
+     // Iterate over dataSet2 and all all entries containing annotations to summary
+     	for (Iterator i = dataSet2.getItemIds().iterator(); i.hasNext();)
+     	{
+     	// Get the current item identifier, which is an integer.
+     	    String iid =  (String) i.next();
+     	    
+     	    // Now get the actual item from the table.
+     	    Item item = dataSet2.getItem(iid);
+     	    
+     	    // Do something
+     	    TextField annotation = (TextField) item.getItemProperty("annotation").getValue();
+     	   String parentID = (String) item.getItemProperty("parent").getValue();
+     	  String currExperiment = (String) ls2.getValue();
+     	    if (!annotation.getValue().isEmpty() && currExperiment.equals(parentID))
+     	    {
+     	    	newEntry = sumContainer.addItem();
+     	     	sumContainer.getContainerProperty(newEntry, "Entry").setValue(item.getItemProperty("path").getValue());
+     	     	sumContainer.getContainerProperty(newEntry, "Value").setValue(annotation.getValue());
+     	    }
+     	}
+     	// 3. Sample info
+     	samples.removeAllContainerFilters();
+		samples.addContainerFilter(new SimpleStringFilter("SAMPLE_TYPE", "Q_BIOLOGICAL_SAMPLE", true, false));
+		newEntry = sumContainer.addItem();
+		sumContainer.getContainerProperty(newEntry, "Entry").setValue("-- Sample Extraction Information --");
+    	sumContainer.getContainerProperty(newEntry, "Value").setValue("");
+    	 newEntry = sumContainer.addItem();
+     	sumContainer.getContainerProperty(newEntry, "Entry").setValue("Number of Samples:");
+     	sumContainer.getContainerProperty(newEntry, "Value").setValue(samples.size()+"");
+     	// Iterate over samples to get unique sample conditions
+     	items = new HashSet<String>();
+     	for (Iterator i = samples.getItemIds().iterator(); i.hasNext();)
+     	{
+     	// Get the current item identifier, which is an integer.
+     	    String iid =  (String) i.next();
+     	    
+     	    // Now get the actual item from the table.
+     	    Item item = samples.getItem(iid);
+     	    
+     	    // Do something
+     	   items.add((String) item.getItemProperty("q_SECONDARY_NAME").getValue());
+     	}
+     	newEntry = sumContainer.addItem();
+     	sumContainer.getContainerProperty(newEntry, "Entry").setValue("Conditions:");
+     	sumContainer.getContainerProperty(newEntry, "Value").setValue(items.toString());
+     // Iterate over samples and add all entries containing annotations to summary
+     	
+     	for (Iterator i = samples.getItemIds().iterator(); i.hasNext();)
+     	{
+     	// Get the current item identifier, which is an integer.
+     	    String iid =  (String) i.next();
+     	    
+     	    // Now get the actual item from the table.
+     	    Item item = samples.getItem(iid);
+     	    
+     	    // Do something
+     	    TextField annotation = (TextField) item.getItemProperty("annotation").getValue();
+     	    if (!annotation.getValue().isEmpty())
+     	    {
+     	    	newEntry = sumContainer.addItem();
+     	     	sumContainer.getContainerProperty(newEntry, "Entry").setValue(item.getItemProperty("identifier").getValue());
+     	     	sumContainer.getContainerProperty(newEntry, "Value").setValue(annotation.getValue());
+     	    }
+     	}
+        // Iterate over dataSet1 and all all entries containing annotations to summary
+     	for (Iterator i = dataSet1.getItemIds().iterator(); i.hasNext();)
+     	{
+     	// Get the current item identifier, which is an integer.
+     	    String iid =  (String) i.next();
+     	    
+     	    // Now get the actual item from the table.
+     	    Item item = dataSet1.getItem(iid);
+     	    
+     	    // Do something
+     	    TextField annotation = (TextField) item.getItemProperty("annotation").getValue();
+     	    System.out.println(annotation.getValue().toString());
+     	   String parentID = (String) item.getItemProperty("parent").getValue();
+     	  String currExperiment = (String) ls2.getValue();
+     	  
+     	    if (!annotation.getValue().isEmpty())
+     	    {
+     	    	newEntry = sumContainer.addItem();
+     	     	sumContainer.getContainerProperty(newEntry, "Entry").setValue(item.getItemProperty("path").getValue());
+     	     	sumContainer.getContainerProperty(newEntry, "Value").setValue(annotation.getValue());
+     	    }
+     	}
+     	
     	return sumContainer;
+    	
+    	
 	}
 
 }
