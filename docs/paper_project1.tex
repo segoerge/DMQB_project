@@ -54,7 +54,7 @@ of data annotation.
 \subsection{Data}
 The main data structure is provided in form of TSV-files. The file \emph{projects.tsv} contains multiple projects together with several attributes, describing the project. Projects themselves can contain multiple different experiments (\emph{experiments.tsv}), which in turn contain two different types of samples (\emph{QCOFF.tsv} and \emph{QMOUSE.tsv}). \emph{QCOFF} is storing samples of a coffee diversity project, whereas \emph{QCOFF} consists of samples for a mouse knockout project. The set of samples can be structured hierarchically, with patients/organisms at the top (Entity samples) from which tissue/cell samples are derived. Experiments or samples can contain datasets, stored in \emph{datasets.tsv}. Datasets link to one or more files. These files are for instance further descriptions in plain text, images, quality control HTML documents or FASTQ files. All structures of the system contain unique identifiers to connect the set of TSV-files together in a logical way.
 \subsection{Java and Vaadin}
-The graphical user interface (GUI) was developed using the open source web application framework Vaadin 7. Vaadin enables the possibility to build single page web apps in server-side Java. All of the browser–server communication and data transfer objects are automated by the framework. The app's state resides on the server, but the end-users use an HTML5 web app in their browsers. In addition, Vaadin's default component set can be extended with custom Google Webtoolkit Widgets (GWT) and designed over cascading style sheets (CSS) \cite{Vaadin}. 
+The graphical user interface (GUI) was developed using the open source web application framework Vaadin 7. Vaadin enables the possibility to build single page web apps in server-side Java. All of the browser–server communication and data transfer objects are automated by the framework. The app's state resides on the server, but the end-users use an HTML5 web app in their browsers. In addition, Vaadin's default component set can be extended with custom Google Webtoolkit Widgets (GWT) and designed over cascading style sheets (CSS) \cite{Vaadin}. In addition to the common vaadin distribution, an extra addon, that provides with basic PDF and Excel export functionality, was used for the report generation~\cite{addon}.  
 \section{Results}
 \subsection{Data Parser}
 ... (Benni ?)
@@ -67,7 +67,7 @@ The resulting user interface tries to simplify the provided collection of data. 
 \label{fig:gui1}
 \end{figure}
 \noindent
-If the user clicks on a specific experiment, two additional tables are visualized (Fig. \ref{fig:gui2_3}). One table showing available data files that are stored under a specific experiment and another one providing all existing experimental samples. The sample table has a multi selection feature, enabling the possibility to inspect the data sets that available for multiple samples. For instance, this can be seen in Fig. \ref{fig:gui2}. Here, two samples (QMOUS001A6 and QMOUS004AM) are selected, leading to a view at fastQ-files and quality control sites for each of the selected samples.  
+If the user clicks on a specific experiment, two additional tables are visualized (Fig. \ref{fig:gui2_3}). One table showing available data files that are stored under a specific experiment and another one providing all existing experimental samples. The sample table has a multi selection feature, enabling the possibility to inspect the data sets that available for multiple samples. For instance, this can be seen in Fig. \ref{fig:gui2}. Here, two samples (QMOUS001A6 and QMOUS004AM) are selected, leading to a view at fastQ-files and quality control sites for each of the selected samples. All those datasets are click- and downloadable directly from the GUI.  
 \begin{figure}[H]
 \begin{subfigure}[b]{.45\linewidth}
 \centering
@@ -86,12 +86,12 @@ If the user clicks on a specific experiment, two additional tables are visualize
 \label{fig:gui2_3}
 \end{figure}
 \noindent
-... annotation, external link to ncbi, ...
+A additional feature is the possibility to add some annotations for samples and datasets behind each row. Here end-users might leave some additional information, that is later included into to report for exportation. Additionally, the sample table comes up with an external connection to the NCBI Taxonomy Browser \cite{Sayers01012009}, if an taxonomy ID is deposited for a sample (Fig. \ref{fig:gui2}). 
 \subsection{Data Exporter}
 Screen shot + description (when finished programming) ...
 ...  
 \section{Discussion}
-The complete project was structured in different phases. The first phase was the theoretical planing. A question which was adressed, was which data has to be visualised and which should not be visualised. In general only data serving as information gain, is important to the user. All other data is only important for the program.. 
+The complete project was structured in different phases. The first phase was the theoretical planing. A question which was adressed, was which data has to be visualised and which should not be visualised. In general only data serving as information gain, is important to the user. All other data is only important for the program. 
 
 
 

@@ -3,4 +3,6 @@ The style file: unsrt.bst
 Database file #1: ref.bib
 Warning--entry type for "Vaadin" isn't style-file defined
 --line 16 of file ref.bib
-(There was 1 warning)
+Warning--entry type for "addon" isn't style-file defined
+--line 24 of file ref.bib
+(There were 2 warnings)

@@ -4,4 +4,21 @@
 Vaadin Ltd.
 \newblock vaadin - user interface components for web apps, 2015.
 
+\bibitem{addon}
+Haijian Wang.
+\newblock vaadin - exporter version 0.0.5.5, 2014.
+
+\bibitem{Sayers01012009}
+Eric~W. Sayers, Tanya Barrett, Dennis~A. Benson, Stephen~H. Bryant, Kathi
+  Canese, Vyacheslav Chetvernin, Deanna~M. Church, Michael DiCuccio, Ron Edgar,
+  Scott Federhen, Michael Feolo, Lewis~Y. Geer, Wolfgang Helmberg, Yuri
+  Kapustin, David Landsman, David~J. Lipman, Thomas~L. Madden, Donna~R.
+  Maglott, Vadim Miller, Ilene Mizrachi, James Ostell, Kim~D. Pruitt,
+  Gregory~D. Schuler, Edwin Sequeira, Stephen~T. Sherry, Martin Shumway, Karl
+  Sirotkin, Alexandre Souvorov, Grigory Starchenko, Tatiana~A. Tatusova, Lukas
+  Wagner, Eugene Yaschenko, and Jian Ye.
+\newblock Database resources of the national center for biotechnology
+  information.
+\newblock {\em Nucleic Acids Research}, 37(suppl 1):D5--D15, 2009.
+
 \end{thebibliography}
