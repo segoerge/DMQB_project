@@ -53,15 +53,50 @@ of data annotation.
 \section{Material and Methods}
 \subsection{Data}
 The main data structure is provided in form of TSV-files. The file \emph{projects.tsv} contains multiple projects together with several attributes, describing the project. Projects themselves can contain multiple different experiments (\emph{experiments.tsv}), which in turn contain two different types of samples (\emph{QCOFF.tsv} and \emph{QMOUSE.tsv}). \emph{QCOFF} is storing samples of a coffee diversity project, whereas \emph{QCOFF} consists of samples for a mouse knockout project. The set of samples can be structured hierarchically, with patients/organisms at the top (Entity samples) from which tissue/cell samples are derived. Experiments or samples can contain datasets, stored in \emph{datasets.tsv}. Datasets link to one or more files. These files are for instance further descriptions in plain text, images, quality control HTML documents or FASTQ files. All structures of the system contain unique identifiers to connect the set of TSV-files together in a logical way.
+\subsection{Java and Vaadin}
+The graphical user interface (GUI) was developed using the open source web application framework Vaadin 7. Vaadin enables the possibility to build single page web apps in server-side Java. All of the browser–server communication and data transfer objects are automated by the framework. The app's state resides on the server, but the end-users use an HTML5 web app in their browsers. In addition, Vaadin's default component set can be extended with custom Google Webtoolkit Widgets (GWT) and designed over cascading style sheets (CSS) \cite{Vaadin}. 
 \section{Results}
-The resulting User Interface tries to simplify 
+\subsection{Data Parser}
+... (Benni ?)
+\subsection{Project Visualizer}
+The resulting user interface tries to simplify the provided collection of data. Therefore, an clear navigation has been designed, to enable also new users handling all components of the web application in a fairly easy way. When the tool is started, all existing data is loaded in the background and available projects are displayed in a select-able list. If one choose a particular project, additional project information is shown in a extra table. In addition, a further select-able list appears, displaying all experiments under the project (Fig. \ref{fig:gui1}).
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.30]{GUI_1.png}
+\caption[The GUI at the projet level]{The GUI at the project level. Here, users can make a decision between various available projects and inspect additional information.}
+\label{fig:gui1}
+\end{figure}
+\noindent
+If the user clicks on a specific experiment, two additional tables are visualized (Fig. \ref{fig:gui2_3}). One table showing available data files that are stored under a specific experiment and another one providing all existing experimental samples. The sample table has a multi selection feature, enabling the possibility to inspect the data sets that available for multiple samples. For instance, this can be seen in Fig. \ref{fig:gui2}. Here, two samples (QMOUS001A6 and QMOUS004AM) are selected, leading to a view at fastQ-files and quality control sites for each of the selected samples.  
+\begin{figure}[H]
+\begin{subfigure}[b]{.45\linewidth}
+\centering
+\includegraphics[scale=0.26]{GUI_2.png}
+\caption{{Example for a experimental design.}}
+\label{fig:gui2}
+\end{subfigure}%
+\quad
+\begin{subfigure}[b]{.45\linewidth}
+\centering
+\includegraphics[scale=0.25]{GUI_3.png}
+\caption{{Example for a sample extraction.}}
+\label{fig:gui2}
+\end{subfigure}%
+\caption{The GUI at the sample level. Here, users can inspect the collection of samples together with stored data sets.}
+\label{fig:gui2_3}
+\end{figure}
+\noindent
+... annotation, external link to ncbi, ...
+\subsection{Data Exporter}
+Screen shot + description (when finished programming) ...
+...  
 \section{Discussion}
 Discussion of the columns, which are important for visualisation
 What did we additional need ( IDs or stuff?)
 How do we want to visualize, what is expected at the experiment level. how should users navigate.
 Experiment subpoints
 
-\bibliographystyle{apalike}
+\bibliographystyle{unsrt}
 \clearpage
 \bibliography{ref}
 \end{document}
