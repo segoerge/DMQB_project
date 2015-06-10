@@ -73,7 +73,7 @@ public class SummaryExport {
 				"Q_BIOLOGICAL_ENTITY", true, false));
 		addEntry("-- Experiment Design Information --", "");
 		addEntry("Number of Species:", samples.size() + "");
-
+		
 		// Iterate over samples to get unique sample conditions
 		Set<String> items = new HashSet<String>();
 		for (Iterator i = samples.getItemIds().iterator(); i.hasNext();) {
@@ -91,7 +91,8 @@ public class SummaryExport {
 
 		// Iterate over samples and add all entries containing annotations to
 		// summary
-		
+		// Add descriptive line befor the first row containing the annotation
+		boolean firstAnnotated = true;
 		for (Iterator i = samples.getItemIds().iterator(); i.hasNext();) {
 			// Get the current item identifier, which is an integer.
 			String iid = (String) i.next();
@@ -103,6 +104,11 @@ public class SummaryExport {
 			TextField annotation = (TextField) item.getItemProperty(
 					"annotation").getValue();
 			if (!annotation.getValue().isEmpty()) {
+				if (firstAnnotated)
+				{
+					addEntry("Annotated species","");
+					firstAnnotated=false;
+				}
 				addEntry(item.getItemProperty("identifier").getValue(),
 						annotation.getValue());
 			}
@@ -124,10 +130,15 @@ public class SummaryExport {
 					"annotation").getValue();
 			String parentID = (String) item.getItemProperty("parent")
 					.getValue();
-			// String currProj = (String) proj_Select.getValue();
+			firstAnnotated=true;
 			if (!annotation.getValue().isEmpty()
 					&& parentID.startsWith(currProj)
 					&& (parentID.length() < 10) && !isAnalysisData(parentID)) {
+				if (firstAnnotated)
+				{
+					addEntry("Annotated data","");
+					firstAnnotated=false;
+				}
 				addEntry(item.getItemProperty("path").getValue(),
 						annotation.getValue());
 			}
@@ -157,7 +168,7 @@ public class SummaryExport {
 		addEntry("Conditions:", items.toString());
 		// Iterate over samples and add all entries containing annotations to
 		// summary
-
+		firstAnnotated=true;
 		for (Iterator i = samples.getItemIds().iterator(); i.hasNext();) {
 			// Get the current item identifier, which is an integer.
 			String iid = (String) i.next();
@@ -169,6 +180,11 @@ public class SummaryExport {
 			TextField annotation = (TextField) item.getItemProperty(
 					"annotation").getValue();
 			if (!annotation.getValue().isEmpty()) {
+				if (firstAnnotated)
+				{
+					addEntry("Annotated sample","");
+					firstAnnotated=false;
+				}
 				addEntry(item.getItemProperty("identifier").getValue(),
 						annotation.getValue());
 			}
@@ -176,6 +192,7 @@ public class SummaryExport {
 		// Iterate over dataSet and all all entries containing annotations to
 		// summary
 		dataSet.removeAllContainerFilters();
+		firstAnnotated=true;
 		for (Iterator i = dataSet.getItemIds().iterator(); i.hasNext();) {
 			// Get the current item identifier, which is an integer.
 			String iid = (String) i.next();
@@ -190,12 +207,16 @@ public class SummaryExport {
 
 			String parentID = (String) item.getItemProperty("parent")
 					.getValue();
-			// String currProj = (String) proj_Select.getValue();
-
+			
 			if (!annotation.getValue().isEmpty()
 					&& parentID.startsWith(currProj)
 					&& (parentID.length() > 8)
 					&& !isAnalysisData(parentID)) {
+				if (firstAnnotated)
+				{
+					addEntry("Annotated data from sample(s)","");
+					firstAnnotated=false;
+				}
 				addEntry(item.getItemProperty("path").getValue(),
 						annotation.getValue());
 			}
@@ -234,7 +255,13 @@ public class SummaryExport {
 			}
 		}
 		addEntry("Number of analytic data:", dataCount + "");
+		firstAnnotated=true;
 		for (int i = 0; i < analyticData.size(); i++) {
+			if (firstAnnotated)
+			{
+				addEntry("Annotated data","");
+				firstAnnotated=false;
+			}
 			String[] currEntry = analyticData.get(i);
 			addEntry(currEntry[0], currEntry[1]);
 		}

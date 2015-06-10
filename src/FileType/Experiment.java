@@ -4,6 +4,7 @@ import java.util.LinkedList;
 
 import Parser.ImportFileSystem;
 
+// Data format for the content of experiments.tsv
 public class Experiment {
 	
 	//Attribute

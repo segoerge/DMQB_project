@@ -1,6 +1,7 @@
 package FileType;
 
 public class TSVFile {
+	// Class type for the initial storage of data imported from tsv-files
 	protected String path;
 	protected String[] header;
 	protected String[][] content;

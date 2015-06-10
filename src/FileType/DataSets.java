@@ -1,5 +1,6 @@
 package FileType;
 
+// Data format to store content of datasets.tsv
 public class DataSets extends TSVFile{
 	//Attributes
 	String projectIdentifier;
@@ -12,9 +13,5 @@ public class DataSets extends TSVFile{
 	}
 	public DataSets(TSVFile insert) {
 		super(insert.content, insert.header, insert.path);
-	}
-
-	//Methodes
-	public void initalize(){
 	}
 }

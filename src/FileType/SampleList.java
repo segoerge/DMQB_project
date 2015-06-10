@@ -1,7 +1,7 @@
 package FileType;
 
 public class SampleList extends TSVFile{
-
+	// import of daa from Samples (e.g. QCOFF.tsv or QMOUS.tsv)
 	private DataSets dataset;
 	private String projectIdentifier;
 	private String experimentIdentifier;

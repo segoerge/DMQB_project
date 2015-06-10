@@ -2,6 +2,7 @@ package FileType;
 
 import java.util.LinkedList;
 
+// helper class for the import of data from projects.tsv
 public class ProjectList extends TSVFile{
 
 	private Experiment experiments;
