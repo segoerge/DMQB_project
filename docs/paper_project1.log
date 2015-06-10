@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (MiKTeX 2.9) (preloaded format=pdflatex 2015.4.16)  11 JUN 2015 01:11
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (MiKTeX 2.9) (preloaded format=pdflatex 2015.4.16)  11 JUN 2015 01:46
 entering extended mode
 **paper_project1.tex
 (C:\Users\Benjamin\Documents\GitHub\DMQB_project\docs\paper_project1.tex
@@ -704,7 +704,7 @@ File: GUI_4.png Graphic file (type png)
 Package pdftex.def Info: GUI_4.png used on input line 94.
 (pdftex.def)             Requested size: 256.25282pt x 197.8356pt.
  [3 <C:/Users/Benjamin/Documents/GitHub/DMQB_project/docs/GUI_4.png>]
-<better-System.png, id=100, 177.7842pt x 103.8279pt>
+<better-System.png, id=101, 177.7842pt x 103.8279pt>
 File: better-System.png Graphic file (type png)
  <use better-System.png>
 Package pdftex.def Info: better-System.png used on input line 106.
@@ -742,9 +742,9 @@ m Files (x86)/MiKTeX 2.9/fonts/type1/urw/times/utmb8a.pfb><C:/Program Files (x8
 6)/MiKTeX 2.9/fonts/type1/urw/times/utmbi8a.pfb><C:/Program Files (x86)/MiKTeX 
 2.9/fonts/type1/urw/times/utmr8a.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/t
 ype1/urw/times/utmri8a.pfb>
-Output written on paper_project1.pdf (6 pages, 530494 bytes).
+Output written on paper_project1.pdf (6 pages, 530754 bytes).
 PDF statistics:
- 132 PDF objects out of 1000 (max. 8388607)
+ 133 PDF objects out of 1000 (max. 8388607)
  24 named destinations out of 1000 (max. 500000)
  103 words of extra memory for PDF output out of 10000 (max. 10000000)
 
