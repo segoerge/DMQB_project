@@ -45,8 +45,8 @@
 
 \newpage
 %--------------------------------------------------------------------------------------------------
-\section*{Abstract}
-....
+%\section*{Abstract}
+%....
 \section{Background}
 Data management in life sciences connects different fields and people with different scientific backgrounds. One challenge, especially when data needs to be collected and presented, is to keep track of the metadata that is important for analysis and reproducibility of an experiment, while exposing only informative and easy to understand data and metadata to users that are not concerned with computation or data management. Hence, for a given data set, the project task was to define what parts of data should be shown to end users (life scientists) and to implement a web-based Graphical User Interface, using Java, to visualize given data. Users should also be able to add some annotation on their own and download a summarizing report of the results. In addition, the user interface should be intuitive and well documented to guide even first-time users easily through the task
 of data annotation.
@@ -71,14 +71,14 @@ If the user clicks on a specific experiment, two additional tables are visualize
 \begin{figure}[H]
 \begin{subfigure}[b]{.45\linewidth}
 \centering
-\includegraphics[scale=0.26]{GUI_2.png}
+\includegraphics[scale=0.30]{GUI_2.png}
 \caption{{Example for a experimental design.}}
 \label{fig:gui2}
 \end{subfigure}%
 \quad
 \begin{subfigure}[b]{.45\linewidth}
 \centering
-\includegraphics[scale=0.25]{GUI_3.png}
+\includegraphics[scale=0.30]{GUI_3.png}
 \caption{{Example for a sample extraction.}}
 \label{fig:gui2}
 \end{subfigure}%
@@ -88,8 +88,14 @@ If the user clicks on a specific experiment, two additional tables are visualize
 \noindent
 A additional feature is the possibility to add some annotations for samples and datasets behind each row. Here end-users might leave some additional information, that is later included into to report for exportation. Additionally, the sample table comes up with an external connection to the NCBI Taxonomy Browser \cite{Sayers01012009}, if an taxonomy ID is deposited for a sample (Fig. \ref{fig:gui2}). 
 \subsection{Data Exporter}
-Screen shot + description (when finished programming) ...
-...  
+With the aim to provide users with a printed summary of the visualized information, a data exporter has been developed. On clicking at the export menu bar, a new subwindow pops up, showing summarized information about a specific project in a new table. For instance, the project details, as well as the number of species together with their conditions for the specific experiments, are presented. As an extra feature, all samples/datasets, that have been annotated by the user, are also included together with their annotation into the summary table. An example for this can be seen in (Fig. \ref{fig:gui4}) based on the navigation and annotation of Fig. \ref{fig:gui2}). At the end, the user has two option in form of press-able buttons. One button exports the summary table in Excel format, the other one generates a PDF download.
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.40]{GUI_4.png}
+\caption[The export function]{The export function. Here, inspect and download a project summary in Excel or PDF format.}
+\label{fig:gui4}
+\end{figure}
+\noindent 
 \section{Discussion}
 The complete project was structured in different phases. The first phase was the theoretical planing. A question which was adressed, was which data has to be visualised and which should not be visualised. In general only data serving as information gain, is important to the user. All other data is only important for the program. 
 
