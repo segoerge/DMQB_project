@@ -25,7 +25,6 @@ public class Experiment {
 		this.setSamples(samples);
 		this.setEntities(entities);
 		summaryData = new LinkedList<Data>();
-		//this.typeAnnotation = generateTypeAnnotation(type);
 	}
 	
 	

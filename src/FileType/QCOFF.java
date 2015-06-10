@@ -34,7 +34,7 @@ public QCOFF(String identifier, String sAMPLE_TYPE, String eXPERIMENT,
 	EXPERIMENT = eXPERIMENT;
 	Q_SECONDARY_NAME = q_SECONDARY_NAME;
 	PARENT = pARENT;
-	Q_PRIMARY_TISSUE = q_PRIMARY_TISSUE;
+	Q_PRIMARY_TISSUE = generatePrimaryTissueInfo(q_PRIMARY_TISSUE, q_TISSUE_DETAILED);
 	Q_TISSUE_DETAILED = q_TISSUE_DETAILED;
 	Q_ADDITIONAL_INFO = q_ADDITIONAL_INFO;
 	Q_NCBI_ORGANISM = q_NCBI_ORGANISM;
@@ -53,6 +53,12 @@ public void setNCBILink(Link NCBILink) {
 	this.NCBILink = NCBILink;
 }
 
+private String generatePrimaryTissueInfo(String qPrimary, String qDetailed)
+{
+	// Add Info from qDetailed to qPrimary if available
+	if (qDetailed.isEmpty()) return qPrimary;
+	else return (qPrimary+":"+qDetailed);
+}
 private Link createNCBILink(String ID)
 {
 	// Valid NCBI ID?
