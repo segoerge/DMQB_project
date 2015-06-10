@@ -150,6 +150,9 @@ public class Main_GUI extends UI {
 			@Override
 			public void valueChange(ValueChangeEvent event) {
 				
+				
+				
+				
 				// Check if experiment selection contains something with "Analysis"
 				Boolean analysisExperiment = expr_Select.getItemCaption(expr_Select.getValue()).toString().contains("Analysis");
 				
@@ -174,6 +177,7 @@ public class Main_GUI extends UI {
 					samples = QCOFFsamples;
 				}
 				
+				
 				sample_Table.setContainerDataSource(samples);
 				data_Table.setContainerDataSource(dataSets);
 				
@@ -183,6 +187,14 @@ public class Main_GUI extends UI {
 				sample_Table.setColumnHeader("NCBILink", "NCBI Link");
 				sample_Table.setColumnHeader("q_PRIMARY_TISSUE", "Tissue");
 				sample_Table.setColumnHeader("annotation", "Annotation");
+				
+				// Define fixed column widths
+				sample_Table.setColumnWidth("identifier", 180);
+				sample_Table.setColumnWidth("q_SECONDARY_NAME", 150);
+				sample_Table.setColumnWidth("NCBILink", 80);
+				sample_Table.setColumnWidth("q_PRIMARY_TISSUE", 180);
+				sample_Table.setColumnWidth("annotation", 170);
+				
 				
 				// Select only relevant columns 
 				sample_Table.setVisibleColumns(new Object[]{"identifier","q_SECONDARY_NAME", "q_PRIMARY_TISSUE","NCBILink", "annotation"});
@@ -207,6 +219,7 @@ public class Main_GUI extends UI {
 					sample_Table.setCaption("Species used in project");
 				if (expr_Select.getItemCaption(expr_Select.getValue()).toString().contains("Sample"))
 					sample_Table.setCaption("Samples collected in project");
+				
 			}
 		});
 		
