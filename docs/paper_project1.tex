@@ -97,7 +97,10 @@ With the aim to provide users with a printed summary of the visualized informati
 \end{figure}
 \noindent 
 \section{Discussion}
-The complete project was structured in different phases. The first phase was the theoretical planing. A question which was adressed, was which data has to be visualised and which should not be visualised. In general only data serving as information gain, is important to the user. All other data is only important for the program. 
+The complete project was structured in different phases. The first phase was the theoretical planning, how to visualize and integrate the data. Many questions arose in this phase, like: which data has to be visualised and which should not be visualised, how data is made easy accessible and what is a logic structure for a user to move through the file system.
+In general only data serving for an effective information gain, is important to the user on a general interface. All other data, might be important for the program or further research, should not be visualized. Out of this statement results a new problem, as the decision between data for the program and biological information is easy, it is not easy to decide, what is more difficult to decide, what is additional information and what is information which should be visible on first sight. Respect to universality, we decided to visualize only information which is necessarily contained in each database. This is not an optimal information density on the gui, but the only possible. For further projects we would advice to define different experiment types. For example a mouse experiment, which shows the number of mice used or the wild types and so on.
+Generally the databank design which was provided is discussable. One problem is, that there could be more than one Experiment for one project (like in figure1).   Our suggestion would be to add a new branch experiments between “My projects” and “Project pars”, which should get “experiment-parts”. To the new branch the experiment contents like design, samples and analysis should be outsourced to the experiment parts.
+For the navigation through the database we decided to use a guide tree, which only shows the children of a node. This is in respect of the overview of the data. Different approaches like showing complete lists were neglected, because there would be to many rows.
 
 
 
